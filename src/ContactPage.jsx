@@ -42,7 +42,7 @@ export default function ContactPage() {
         <h1 style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 42, fontWeight: 900, letterSpacing: 3, marginBottom: 60, lineHeight: 1.2 }}>{t.title}</h1>
 
         <div style={{ marginBottom: 48 }}>
-          <img src={WHITE_LOGO} alt="BISK8" style={{ height: 20, marginBottom: 16 }} />
+          <img src={WHITE_LOGO} alt="BISK8" style={{ height: 26, marginBottom: 16 }} />
           <p style={{ fontFamily: "Inter, -apple-system, sans-serif", fontSize: 15, lineHeight: 1.9, color: "#999" }}>
             {t.location}
           </p>
