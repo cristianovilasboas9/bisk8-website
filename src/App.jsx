@@ -575,13 +575,24 @@ const letterVariant = {
   visible: (i) => ({ opacity: 1, y: 0, x: 0, rotate: 0, scale: 1, transition: { duration: 0.5, delay: 0.5 + i * 0.025, ease: EASE } }),
 };
 function ScatterText({ text }) {
+  const words = text.split(" ");
+  let charIndex = 0;
   return (
     <motion.span initial="hidden" animate="visible" style={{ display: "inline" }}>
-      {text.split("").map((char, i) => (
-        <motion.span key={i} custom={i} variants={letterVariant} style={{ display: "inline-block", whiteSpace: char === " " ? "pre" : "normal" }}>
-          {char}
-        </motion.span>
-      ))}
+      {words.map((word, wi) => {
+        const startIdx = charIndex;
+        charIndex += word.length + 1;
+        return (
+          <span key={wi} style={{ display: "inline-block", whiteSpace: "nowrap" }}>
+            {word.split("").map((char, ci) => (
+              <motion.span key={ci} custom={startIdx + ci} variants={letterVariant} style={{ display: "inline-block" }}>
+                {char}
+              </motion.span>
+            ))}
+            {wi < words.length - 1 && <span style={{ display: "inline-block", width: "0.3em" }}>{"\u00A0"}</span>}
+          </span>
+        );
+      })}
     </motion.span>
   );
 }
@@ -906,12 +917,11 @@ export default function BISK8Landing() {
 
       {/* HERO — BLACK */}
       <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "120px 32px 80px", background: "radial-gradient(ellipse at 50% 0%, rgba(40,40,40,0.5) 0%, #000 70%)", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: "url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 800\"><circle cx=\"400\" cy=\"400\" r=\"300\" fill=\"none\" stroke=\"rgba(255,255,255,0.02)\" stroke-width=\"1\"/><circle cx=\"400\" cy=\"400\" r=\"200\" fill=\"none\" stroke=\"rgba(255,255,255,0.015)\" stroke-width=\"1\"/><circle cx=\"400\" cy=\"400\" r=\"100\" fill=\"none\" stroke=\"rgba(255,255,255,0.01)\" stroke-width=\"1\"/></svg>')", backgroundSize: "800px", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
         <div className="hero-grid" style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
           <div className="hero-text">
             <motion.div initial="hidden" animate="visible">
               <motion.img variants={heroWord} custom={0} src={WHITE_LOGO} alt="BISK8" style={{ height: 32, marginBottom: 24, opacity: 0.6 }} />
-              <h1 className="hero-title" style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: 2, marginBottom: 24, background: "linear-gradient(135deg, #fff 0%, #ccc 50%, #fff 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "gradientShift 6s ease infinite" }}>
+              <h1 className="hero-title" style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 5vw, 64px)", fontWeight: 900, lineHeight: 1.2, letterSpacing: 2, marginBottom: 24, paddingTop: 4, background: "linear-gradient(135deg, #fff 0%, #ccc 50%, #fff 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "gradientShift 6s ease infinite", wordBreak: "keep-all", overflowWrap: "break-word" }}>
                 <ScatterText text={t.tagline} />
               </h1>
               <BlurReveal delay={0.8} style={{ fontSize: 18, color: "#999", lineHeight: 1.6, maxWidth: 440, fontWeight: 300 }}>{t.subtitle}</BlurReveal>
