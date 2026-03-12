@@ -700,17 +700,24 @@ export default function BISK8Landing() {
         .hero-text { grid-area: text; }
         .hero-buttons { grid-area: buttons; display: flex; gap: 12px; flex-wrap: wrap; }
         .hero-phone { grid-area: phone; align-self: center; }
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           .hero-grid { display: flex !important; flex-direction: column !important; text-align: center !important; gap: 0px !important; }
           .hero-text { order: 1; }
           .hero-phone { order: 2; margin-top: 40px !important; }
           .hero-buttons { order: 3; margin-top: 24px !important; justify-content: center !important; }
+          .pricing-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .features-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 768px) {
           .avatar-grid { flex-direction: column !important; gap: 40px !important; text-align: center !important; }
           .avatar-comparison { gap: 12px !important; justify-content: center !important; }
-          .avatar-comparison > div > div:first-child { width: 130px !important; height: 173px !important; }
+          .avatar-comparison > div > div:first-child { width: 140px !important; height: 186px !important; }
+          .steps-grid { flex-direction: column !important; align-items: center !important; }
+        }
+        @media (max-width: 580px) {
           .features-grid { grid-template-columns: 1fr !important; }
           .pricing-grid { grid-template-columns: 1fr !important; }
-          .steps-grid { flex-direction: column !important; align-items: center !important; }
+          .avatar-comparison > div > div:first-child { width: 130px !important; height: 173px !important; }
         }
       `}</style>
 
