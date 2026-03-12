@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage, languages } from "./LanguageContext.jsx";
 import contactTranslations from "./translations/contact-translations.js";
 
@@ -14,6 +14,7 @@ export default function ContactPage() {
   const { lang, setLanguage } = useLanguage();
   const t = contactTranslations[lang] || contactTranslations.fr;
   const isRTL = lang === "ar";
+  const [showLangMenu, setShowLangMenu] = useState(false);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
@@ -22,33 +23,26 @@ export default function ContactPage() {
       <style>{CONTACT_CSS}</style>
       <nav style={{ padding: "20px 32px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #111" }}>
         <a href="/"><img src={WHITE_LOGO} alt="BISK8" style={{ height: 24 }} /></a>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
-          {languages.map((l) => (
-            <button
-              key={l}
-              onClick={() => setLanguage(l)}
-              style={{
-                background: lang === l ? "#fff" : "transparent",
-                color: lang === l ? "#000" : "#666",
-                border: lang === l ? "1px solid #fff" : "1px solid #333",
-                borderRadius: 4,
-                padding: "4px 10px",
-                fontSize: 11,
-                fontFamily: "Inter, -apple-system, sans-serif",
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
-            >
-              {LANG_LABELS[l]}
-            </button>
-          ))}
+        <div style={{ position: "relative" }}>
+          <button onClick={() => setShowLangMenu(!showLangMenu)} style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 8, padding: "6px 14px", color: "#fff", fontSize: 13, cursor: "pointer", fontFamily: "'HighCruiser', sans-serif", fontWeight: 500 }}>
+            {LANG_LABELS[lang] || lang.toUpperCase()} ▾
+          </button>
+          {showLangMenu && (
+            <div style={{ position: "absolute", top: 40, right: 0, background: "#111", border: "1px solid #333", borderRadius: 12, overflow: "hidden", minWidth: 80, zIndex: 100 }}>
+              {languages.map(l => (
+                <div key={l} onClick={() => { setLanguage(l); setShowLangMenu(false); }} style={{ padding: "8px 16px", cursor: "pointer", fontSize: 13, color: l === lang ? "#fff" : "#888", background: l === lang ? "#222" : "transparent", fontWeight: l === lang ? 600 : 400 }}>
+                  {LANG_LABELS[l] || l.toUpperCase()}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </nav>
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "60px 32px 120px" }}>
         <h1 style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 42, fontWeight: 900, letterSpacing: 3, marginBottom: 60, lineHeight: 1.2 }}>{t.title}</h1>
 
         <div style={{ marginBottom: 48 }}>
-          <p style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 20, fontWeight: 700, letterSpacing: 2, marginBottom: 16, color: "#fff" }}>{t.company}</p>
+          <img src={WHITE_LOGO} alt="BISK8" style={{ height: 20, marginBottom: 16 }} />
           <p style={{ fontFamily: "Inter, -apple-system, sans-serif", fontSize: 15, lineHeight: 1.9, color: "#999" }}>
             {t.location}
           </p>
