@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { useLanguage, languages } from "./LanguageContext.jsx";
+import contactTranslations from "./translations/contact-translations.js";
 
 const WHITE_LOGO = "/images/white-logo.svg";
 
@@ -6,45 +8,71 @@ const CONTACT_CSS = `
 @font-face { font-family: "HighCruiser"; src: url("/fonts/HighCruiser.ttf") format("truetype"); }
 `;
 
+const LANG_LABELS = { fr: "FR", en: "EN", de: "DE", es: "ES", it: "IT", pt: "PT", ar: "AR", zh: "中文", ru: "RU" };
+
 export default function ContactPage() {
+  const { lang, setLanguage } = useLanguage();
+  const t = contactTranslations[lang] || contactTranslations.fr;
+  const isRTL = lang === "ar";
+
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
   return (
-    <div style={{ fontFamily: "'HighCruiser', sans-serif", background: "#000", color: "#fff", minHeight: "100vh" }}>
+    <div style={{ fontFamily: "'HighCruiser', sans-serif", background: "#000", color: "#fff", minHeight: "100vh", direction: isRTL ? "rtl" : "ltr" }}>
       <style>{CONTACT_CSS}</style>
       <nav style={{ padding: "20px 32px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #111" }}>
         <a href="/"><img src={WHITE_LOGO} alt="BISK8" style={{ height: 24 }} /></a>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
+          {languages.map((l) => (
+            <button
+              key={l}
+              onClick={() => setLanguage(l)}
+              style={{
+                background: lang === l ? "#fff" : "transparent",
+                color: lang === l ? "#000" : "#666",
+                border: lang === l ? "1px solid #fff" : "1px solid #333",
+                borderRadius: 4,
+                padding: "4px 10px",
+                fontSize: 11,
+                fontFamily: "Inter, -apple-system, sans-serif",
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+            >
+              {LANG_LABELS[l]}
+            </button>
+          ))}
+        </div>
       </nav>
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "60px 32px 120px" }}>
-        <h1 style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 42, fontWeight: 900, letterSpacing: 3, marginBottom: 60, lineHeight: 1.2 }}>CONTACT</h1>
+        <h1 style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 42, fontWeight: 900, letterSpacing: 3, marginBottom: 60, lineHeight: 1.2 }}>{t.title}</h1>
 
         <div style={{ marginBottom: 48 }}>
-          <p style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 20, fontWeight: 700, letterSpacing: 2, marginBottom: 16, color: "#fff" }}>BISK8</p>
+          <p style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 20, fontWeight: 700, letterSpacing: 2, marginBottom: 16, color: "#fff" }}>{t.company}</p>
           <p style={{ fontFamily: "Inter, -apple-system, sans-serif", fontSize: 15, lineHeight: 1.9, color: "#999" }}>
-            Cristiano Vilas Boas<br />
-            Entrepreneur individuel<br />
-            Barcelos, Portugal
+            {t.location}
           </p>
         </div>
 
         <div style={{ marginBottom: 48 }}>
           <p style={{ fontFamily: "Inter, -apple-system, sans-serif", fontSize: 15, lineHeight: 1.9, color: "#999" }}>
-            Email : <a href="mailto:contact@bisk8.co" style={{ color: "#fff", textDecoration: "none", borderBottom: "1px solid #333" }}>contact@bisk8.co</a>
+            {t.emailLabel} : <a href="mailto:contact@bisk8.co" style={{ color: "#fff", textDecoration: "none", borderBottom: "1px solid #333" }}>contact@bisk8.co</a>
           </p>
         </div>
 
         <div style={{ marginBottom: 48 }}>
           <p style={{ fontFamily: "Inter, -apple-system, sans-serif", fontSize: 15, lineHeight: 2.2, color: "#999" }}>
-            Pour toute question concernant :<br />
-            <span style={{ color: "#666" }}>—</span> L'application → <a href="mailto:contact@bisk8.co" style={{ color: "#ccc", textDecoration: "none" }}>contact@bisk8.co</a><br />
-            <span style={{ color: "#666" }}>—</span> Les conditions d'utilisation → <a href="mailto:contact@bisk8.co" style={{ color: "#ccc", textDecoration: "none" }}>contact@bisk8.co</a><br />
-            <span style={{ color: "#666" }}>—</span> La protection de vos données → <a href="mailto:contact@bisk8.co" style={{ color: "#ccc", textDecoration: "none" }}>contact@bisk8.co</a><br />
-            <span style={{ color: "#666" }}>—</span> Un partenariat ou une collaboration → <a href="mailto:info@bisk8.co" style={{ color: "#ccc", textDecoration: "none" }}>info@bisk8.co</a>
+            {t.questionsIntro}<br />
+            <span style={{ color: "#666" }}>—</span> {t.questionApp} → <a href="mailto:contact@bisk8.co" style={{ color: "#ccc", textDecoration: "none" }}>contact@bisk8.co</a><br />
+            <span style={{ color: "#666" }}>—</span> {t.questionTerms} → <a href="mailto:contact@bisk8.co" style={{ color: "#ccc", textDecoration: "none" }}>contact@bisk8.co</a><br />
+            <span style={{ color: "#666" }}>—</span> {t.questionPrivacy} → <a href="mailto:contact@bisk8.co" style={{ color: "#ccc", textDecoration: "none" }}>contact@bisk8.co</a><br />
+            <span style={{ color: "#666" }}>—</span> {t.questionPartnership} → <a href="mailto:info@bisk8.co" style={{ color: "#ccc", textDecoration: "none" }}>info@bisk8.co</a>
           </p>
         </div>
 
         <div style={{ padding: "24px 0", borderTop: "1px solid #222" }}>
           <p style={{ fontFamily: "Inter, -apple-system, sans-serif", fontSize: 14, color: "#666", fontStyle: "italic" }}>
-            Nous répondons dans un délai de 48h.
+            {t.responseTime}
           </p>
         </div>
       </div>

@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import { useLanguage } from "./LanguageContext.jsx";
 
 
 const WHITE_LOGO = "/images/white-logo.svg";
@@ -547,19 +549,35 @@ const languages = ["fr", "en", "de", "es", "it", "pt", "ar", "zh", "ru"];
 
 const HERO_IMG = "/images/hero.jpg";
 
-function useScrollAnimation() {
-  const ref = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.15 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-  return [ref, isVisible];
-}
+// Framer Motion animation variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 60 },
+  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.8, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] } }),
+};
+const fadeLeft = {
+  hidden: { opacity: 0, x: -80 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
+};
+const fadeRight = {
+  hidden: { opacity: 0, x: 80 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
+};
+const scaleUp = {
+  hidden: { opacity: 0, scale: 0.85 },
+  visible: (i = 0) => ({ opacity: 1, scale: 1, transition: { duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] } }),
+};
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+};
+const heroWord = {
+  hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
+  visible: (i = 0) => ({ opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, delay: 0.3 + i * 0.12, ease: [0.22, 1, 0.36, 1] } }),
+};
+const phoneSlide = {
+  hidden: { opacity: 0, x: 120, rotateY: -15 },
+  visible: { opacity: 1, x: 0, rotateY: 0, transition: { duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] } },
+};
 
 function useParallax() {
   const [offset, setOffset] = useState(0);
@@ -635,18 +653,12 @@ const ScreenLook = () => (
 );
 
 export default function BISK8Landing() {
-  const [lang, setLang] = useState("fr");
+  const { lang, setLanguage } = useLanguage();
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [isAnnual, setIsAnnual] = useState(false);
   const t = translations[lang] || translations.fr;
   const scrollY = useParallax();
-
-  const [heroRef, heroVisible] = useScrollAnimation();
-  const [stepsRef, stepsVisible] = useScrollAnimation();
-  const [avatarRef, avatarVisible] = useScrollAnimation();
-  const [featRef, featVisible] = useScrollAnimation();
-  const [priceRef, priceVisible] = useScrollAnimation();
-  const [ctaRef, ctaVisible] = useScrollAnimation();
+  const vp = { once: true, amount: 0.15 };
 
   const prices = {
     solo: isAnnual ? "99.90 CHF" : "9.90 CHF",
@@ -673,12 +685,6 @@ export default function BISK8Landing() {
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
         @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.15); } 50% { box-shadow: 0 0 0 20px rgba(255,255,255,0); } }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .reveal { opacity: 0; transform: translateY(60px); transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-80px); transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
-        .reveal-left.visible { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(80px); transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
-        .reveal-right.visible { opacity: 1; transform: translateX(0); }
         .badge-btn { display: inline-block; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .badge-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255,255,255,0.1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
@@ -708,7 +714,7 @@ export default function BISK8Landing() {
             {showLangMenu && (
               <div style={{ position: "absolute", top: 40, right: 0, background: "#111", border: "1px solid #333", borderRadius: 12, overflow: "hidden", minWidth: 80 }}>
                 {languages.map(l => (
-                  <div key={l} onClick={() => { setLang(l); setShowLangMenu(false); }} style={{ padding: "8px 16px", cursor: "pointer", fontSize: 13, color: l === lang ? "#fff" : "#888", background: l === lang ? "#222" : "transparent", fontWeight: l === lang ? 600 : 400 }}>
+                  <div key={l} onClick={() => { setLanguage(l); setShowLangMenu(false); }} style={{ padding: "8px 16px", cursor: "pointer", fontSize: 13, color: l === lang ? "#fff" : "#888", background: l === lang ? "#222" : "transparent", fontWeight: l === lang ? 600 : 400 }}>
                     {l.toUpperCase()}
                   </div>
                 ))}
@@ -720,29 +726,29 @@ export default function BISK8Landing() {
       </nav>
 
       {/* HERO — BLACK */}
-      <section ref={heroRef} style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "120px 32px 80px", background: "radial-gradient(ellipse at 50% 0%, rgba(40,40,40,0.5) 0%, #000 70%)", position: "relative", overflow: "hidden" }}>
+      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "120px 32px 80px", background: "radial-gradient(ellipse at 50% 0%, rgba(40,40,40,0.5) 0%, #000 70%)", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: "url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 800\"><circle cx=\"400\" cy=\"400\" r=\"300\" fill=\"none\" stroke=\"rgba(255,255,255,0.02)\" stroke-width=\"1\"/><circle cx=\"400\" cy=\"400\" r=\"200\" fill=\"none\" stroke=\"rgba(255,255,255,0.015)\" stroke-width=\"1\"/><circle cx=\"400\" cy=\"400\" r=\"100\" fill=\"none\" stroke=\"rgba(255,255,255,0.01)\" stroke-width=\"1\"/></svg>')", backgroundSize: "800px", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
         <div className="hero-grid" style={{ maxWidth: 1100, margin: "0 auto", display: "flex", alignItems: "center", gap: 80, position: "relative" }}>
           <div style={{ flex: 1 }}>
-            <div className={`reveal ${heroVisible ? "visible" : ""}`} style={{ marginBottom: 32 }}>
-              <img src={WHITE_LOGO} alt="BISK8" style={{ height: 32, marginBottom: 24, opacity: 0.6 }} />
-              <h1 style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: 2, marginBottom: 24, background: "linear-gradient(135deg, #fff 0%, #ccc 50%, #fff 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "gradientShift 6s ease infinite" }}>
+            <motion.div initial="hidden" animate="visible" style={{ marginBottom: 32 }}>
+              <motion.img variants={heroWord} custom={0} src={WHITE_LOGO} alt="BISK8" style={{ height: 32, marginBottom: 24, opacity: 0.6 }} />
+              <motion.h1 variants={heroWord} custom={1} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: 2, marginBottom: 24, background: "linear-gradient(135deg, #fff 0%, #ccc 50%, #fff 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "gradientShift 6s ease infinite" }}>
                 {t.tagline}
-              </h1>
-              <p style={{ fontSize: 18, color: "#999", lineHeight: 1.6, maxWidth: 440, fontWeight: 300 }}>{t.subtitle}</p>
-            </div>
-            <div className={`reveal ${heroVisible ? "visible" : ""}`} style={{ display: "flex", gap: 12, flexWrap: "wrap", transitionDelay: "0.3s" }} id="download">
-              <a href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#fff", color: "#000", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, animation: "pulse 3s ease infinite" }}>
+              </motion.h1>
+              <motion.p variants={heroWord} custom={4} style={{ fontSize: 18, color: "#999", lineHeight: 1.6, maxWidth: 440, fontWeight: 300 }}>{t.subtitle}</motion.p>
+            </motion.div>
+            <motion.div initial="hidden" animate="visible" style={{ display: "flex", gap: 12, flexWrap: "wrap" }} id="download">
+              <motion.a variants={heroWord} custom={5} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#fff", color: "#000", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, animation: "pulse 3s ease infinite" }}>
                 <svg width="20" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
-                <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>Download on the</div><div style={{ fontSize: 15, fontWeight: 700 }}>App Store</div></div>
-              </a>
-              <a href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "transparent", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, border: "1px solid rgba(255,255,255,0.2)" }}>
+                <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>DOWNLOAD ON THE</div><div style={{ fontSize: 15, fontWeight: 700 }}>App Store</div></div>
+              </motion.a>
+              <motion.a variants={heroWord} custom={6} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "transparent", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, border: "1px solid rgba(255,255,255,0.2)" }}>
                 <svg width="20" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.5 12.92 20.16 13.19L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/></svg>
                 <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>GET IT ON</div><div style={{ fontSize: 15, fontWeight: 700 }}>Google Play</div></div>
-              </a>
-            </div>
+              </motion.a>
+            </motion.div>
           </div>
-          <div className="hero-phone" style={{ flex: "0 0 auto", perspective: 1200 }}>
+          <motion.div className="hero-phone" initial="hidden" animate="visible" variants={phoneSlide} style={{ flex: "0 0 auto", perspective: 1200 }}>
             <div style={{ animation: "float 6s ease-in-out infinite", transform: `translateY(${-scrollY * 0.08}px)` }}>
               <div style={{
                 width: 280, height: 500, borderRadius: 40, border: '4px solid #333',
@@ -753,46 +759,46 @@ export default function BISK8Landing() {
                 <img src={HERO_IMG} alt='BISK8 App' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 36 }} />
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* HOW IT WORKS — WHITE */}
-      <section ref={stepsRef} style={{ padding: "120px 32px", background: "#fff", color: "#000", position: "relative" }}>
+      <section style={{ padding: "120px 32px", background: "#fff", color: "#000", position: "relative" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <h2 className={`reveal ${stepsVisible ? "visible" : ""}`} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 80, letterSpacing: 2 }}>{t.howItWorks}</h2>
+          <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 80, letterSpacing: 2 }}>{t.howItWorks}</motion.h2>
           <div className="steps-grid" style={{ display: "flex", gap: 48, justifyContent: "center" }}>
             {[
               { num: "01", title: t.step1Title, desc: t.step1Desc, img: STEP1_IMG },
               { num: "02", title: t.step2Title, desc: t.step2Desc, img: STEP2_IMG },
               { num: "03", title: t.step3Title, desc: t.step3Desc, img: STEP3_IMG },
             ].map((step, i) => (
-              <div key={i} className={`reveal ${stepsVisible ? "visible" : ""}`} style={{ flex: 1, textAlign: "center", transitionDelay: `${i * 0.2}s`, maxWidth: 300 }}>
+              <motion.div key={i} variants={scaleUp} custom={i} initial="hidden" whileInView="visible" viewport={vp} style={{ flex: 1, textAlign: "center", maxWidth: 300 }}>
                 <div style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 72, fontWeight: 900, color: "rgba(0,0,0,0.06)", marginBottom: -24, position: "relative", zIndex: 0, letterSpacing: 4 }}>{step.num}</div>
                 <div style={{ width: 220, height: 440, margin: "0 auto", borderRadius: 28, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.12)", border: "3px solid #e8e8e8" }}>
                   <img src={step.img} alt={step.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                 </div>
                 <h3 style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 24, fontWeight: 900, marginBottom: 10, marginTop: 24, letterSpacing: 1.5 }}>{step.title}</h3>
                 <p style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.7, maxWidth: 280, margin: "0 auto" }}>{step.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* AVATAR IA — BLACK */}
-      <section ref={avatarRef} style={{ padding: "120px 32px", background: "#000", position: "relative", overflow: "hidden" }}>
+      <section style={{ padding: "120px 32px", background: "#000", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 30% 50%, rgba(60,60,60,0.2) 0%, transparent 60%)" }} />
         <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
           <div className="avatar-grid" style={{ display: "flex", alignItems: "center", gap: 80 }}>
             <div style={{ flex: 1 }}>
-              <div className={`reveal-left ${avatarVisible ? "visible" : ""}`}>
+              <motion.div variants={fadeLeft} initial="hidden" whileInView="visible" viewport={vp}>
                 <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, color: "#666", textTransform: "uppercase", marginBottom: 16 }}>AI AVATAR</div>
                 <h2 style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, marginBottom: 16, lineHeight: 1.1, letterSpacing: 2 }}>{t.avatarTagline}</h2>
                 <p style={{ fontSize: 16, color: "#999", lineHeight: 1.7, maxWidth: 480 }}>{t.avatarDesc}</p>
-              </div>
+              </motion.div>
             </div>
-            <div className={`reveal-right ${avatarVisible ? "visible" : ""}`} style={{ flex: 1, display: "flex", gap: 20, justifyContent: "center" }}>
+            <motion.div variants={fadeRight} initial="hidden" whileInView="visible" viewport={vp} style={{ flex: 1, display: "flex", gap: 20, justifyContent: "center" }}>
               <div style={{ textAlign: "center" }}>
                 <div style={{ width: 180, height: 240, borderRadius: 20, overflow: "hidden", marginBottom: 12 }}>
                   <img src="/section3_1.png" alt="Before" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 95%" }} />
@@ -806,15 +812,15 @@ export default function BISK8Landing() {
                 </div>
                 <div style={{ fontSize: 12, color: "#999", fontWeight: 600 }}>{t.after}</div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* FEATURES — WHITE */}
-      <section ref={featRef} style={{ padding: "120px 32px", background: "#fff", color: "#000" }}>
+      <section style={{ padding: "120px 32px", background: "#fff", color: "#000" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <h2 className={`reveal ${featVisible ? "visible" : ""}`} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 64, letterSpacing: 2 }}>{t.featuresTitle}</h2>
+          <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 64, letterSpacing: 2 }}>{t.featuresTitle}</motion.h2>
           <div className="features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
             {[
               { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C10.34 2 9 3.34 9 5c0 1.31.83 2.42 2 2.83V9"/><path d="M12 9L3 16h18L12 9Z"/></svg>', title: t.feat1Title, desc: t.feat1Desc },
@@ -824,27 +830,27 @@ export default function BISK8Landing() {
               { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>', title: t.feat5Title, desc: t.feat5Desc },
               { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>', title: t.feat6Title, desc: t.feat6Desc },
             ].map((f, i) => (
-              <div key={i} className={`feature-card reveal ${featVisible ? "visible" : ""}`} style={{ background: "#fafafa", borderRadius: 20, padding: 32, border: "1px solid #eee", cursor: "default", transitionDelay: `${i * 0.1}s` }}>
+              <motion.div key={i} className="feature-card" variants={fadeUp} custom={i} initial="hidden" whileInView="visible" viewport={vp} whileHover={{ y: -8, boxShadow: "0 20px 40px rgba(0,0,0,0.15)" }} style={{ background: "#fafafa", borderRadius: 20, padding: 32, border: "1px solid #eee", cursor: "default" }}>
                 <div style={{ marginBottom: 16 }} dangerouslySetInnerHTML={{ __html: f.icon }} />
                 <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>{f.title}</h3>
                 <p style={{ fontSize: 14, color: "#666", lineHeight: 1.6 }}>{f.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* PRICING — BLACK */}
-      <section ref={priceRef} style={{ padding: "120px 32px", background: "#000", position: "relative" }}>
+      <section style={{ padding: "120px 32px", background: "#000", position: "relative" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%, rgba(40,40,40,0.3) 0%, transparent 60%)" }} />
         <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
-          <h2 className={`reveal ${priceVisible ? "visible" : ""}`} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 24, letterSpacing: 2 }}>{t.pricingTitle}</h2>
-          <div className={`reveal ${priceVisible ? "visible" : ""}`} style={{ display: "flex", justifyContent: "center", marginBottom: 48, transitionDelay: "0.2s" }}>
+          <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 24, letterSpacing: 2 }}>{t.pricingTitle}</motion.h2>
+          <motion.div variants={fadeUp} custom={1} initial="hidden" whileInView="visible" viewport={vp} style={{ display: "flex", justifyContent: "center", marginBottom: 48 }}>
             <div style={{ background: "#111", borderRadius: 12, padding: 4, display: "flex", gap: 4 }}>
               <button onClick={() => setIsAnnual(false)} style={{ padding: "8px 20px", borderRadius: 8, border: "none", background: !isAnnual ? "#fff" : "transparent", color: !isAnnual ? "#000" : "#888", fontWeight: 600, fontSize: 13, cursor: "pointer", fontFamily: "'HighCruiser', sans-serif" }}>{t.monthly}</button>
               <button onClick={() => setIsAnnual(true)} style={{ padding: "8px 20px", borderRadius: 8, border: "none", background: isAnnual ? "#fff" : "transparent", color: isAnnual ? "#000" : "#888", fontWeight: 600, fontSize: 13, cursor: "pointer", fontFamily: "'HighCruiser', sans-serif", position: "relative" }}>{t.annual} <span style={{ background: "linear-gradient(135deg, #16a34a, #22c55e)", color: "#fff", fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 20, marginLeft: 6, letterSpacing: 0.5 }}>-17%</span></button>
             </div>
-          </div>
+          </motion.div>
           <div className="pricing-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
             {[
               { name: t.free, price: "0 CHF", period: "", perks: [t.freePerk1, t.freePerk2, t.freePerk3], highlight: false },
@@ -852,7 +858,7 @@ export default function BISK8Landing() {
               { name: t.couple, price: prices.couple, period: prices.period, perks: [t.couplePerk1, t.couplePerk2, t.couplePerk3], highlight: false, discount: isAnnual },
               { name: t.famille, price: prices.famille, period: prices.period, perks: [t.famillePerk1, t.famillePerk2, t.famillePerk3], highlight: false, discount: isAnnual },
             ].map((plan, i) => (
-              <div key={i} className={`price-card reveal ${priceVisible ? "visible" : ""}`} style={{ background: plan.highlight ? "#fff" : "#111", color: plan.highlight ? "#000" : "#fff", borderRadius: 24, padding: "36px 24px", border: plan.highlight ? "none" : "1px solid #222", position: "relative", transitionDelay: `${i * 0.15}s` }}>
+              <motion.div key={i} className="price-card" variants={plan.highlight ? scaleUp : fadeUp} custom={i} initial="hidden" whileInView="visible" viewport={vp} whileHover={{ y: -12, boxShadow: "0 30px 60px rgba(0,0,0,0.4)" }} style={{ background: plan.highlight ? "#fff" : "#111", color: plan.highlight ? "#000" : "#fff", borderRadius: 24, padding: "36px 24px", border: plan.highlight ? "none" : "1px solid #222", position: "relative" }}>
                 {plan.highlight && <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "#000", color: "#fff", fontSize: 10, fontWeight: 700, padding: "4px 16px", borderRadius: 20, letterSpacing: 1 }}>{t.popular}</div>}
                 <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, letterSpacing: 1 }}>{plan.name}</div>
                 <div style={{ marginBottom: 24 }}>
@@ -865,36 +871,36 @@ export default function BISK8Landing() {
                     <span style={{ color: plan.highlight ? "#000" : "#fff", fontWeight: 700 }}>✓</span> {p}
                   </div>
                 ))}
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA FINAL — WHITE */}
-      <section ref={ctaRef} id="download-bottom" style={{ padding: "120px 32px", background: "#fff", color: "#000", textAlign: "center" }}>
+      <section id="download-bottom" style={{ padding: "120px 32px", background: "#fff", color: "#000", textAlign: "center" }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <h2 className={`reveal ${ctaVisible ? "visible" : ""}`} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 900, marginBottom: 16, letterSpacing: 2 }}>{t.ctaTitle}</h2>
-          <p className={`reveal ${ctaVisible ? "visible" : ""}`} style={{ fontSize: 18, color: "#666", marginBottom: 40, transitionDelay: "0.2s" }}>{t.ctaSubtitle.split("BISK8").map((part, i, arr) => <span key={i}>{part}{i < arr.length - 1 && <img src={BLACK_LOGO} alt="BISK8" style={{ height: 23, verticalAlign: "middle", display: "inline", margin: "0 4px", opacity: 0.65 }} />}</span>)}</p>
-          <div className={`reveal ${ctaVisible ? "visible" : ""}`} style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", transitionDelay: "0.4s" }}>
+          <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 900, marginBottom: 16, letterSpacing: 2 }}>{t.ctaTitle}</motion.h2>
+          <motion.p variants={fadeUp} custom={1} initial="hidden" whileInView="visible" viewport={vp} style={{ fontSize: 18, color: "#666", marginBottom: 40 }}>{t.ctaSubtitle.split("BISK8").map((part, i, arr) => <span key={i}>{part}{i < arr.length - 1 && <img src={BLACK_LOGO} alt="BISK8" style={{ height: 23, verticalAlign: "middle", display: "inline", margin: "0 4px", opacity: 0.65 }} />}</span>)}</motion.p>
+          <motion.div variants={fadeUp} custom={2} initial="hidden" whileInView="visible" viewport={vp} style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
             <a href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#000", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
               <svg width="20" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
-              <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>Download on the</div><div style={{ fontSize: 15, fontWeight: 700 }}>App Store</div></div>
+              <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>DOWNLOAD ON THE</div><div style={{ fontSize: 15, fontWeight: 700 }}>App Store</div></div>
             </a>
             <a href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#000", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
               <svg width="20" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.5 12.92 20.16 13.19L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/></svg>
               <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>GET IT ON</div><div style={{ fontSize: 15, fontWeight: 700 }}>Google Play</div></div>
             </a>
-          </div>
-          <div style={{ marginTop: 32, display: "flex", justifyContent: "center", gap: 20 }}>
-            <a href="https://instagram.com/bisk8.co" target="_blank" rel="noopener" style={{ color: "#bbb", textDecoration: "none", fontSize: 13, fontWeight: 500 }}>Instagram</a>
-            <a href="https://tiktok.com/@bisk8.co" target="_blank" rel="noopener" style={{ color: "#bbb", textDecoration: "none", fontSize: 13, fontWeight: 500 }}>TikTok</a>
-          </div>
+          </motion.div>
+          <motion.div variants={fadeUp} custom={3} initial="hidden" whileInView="visible" viewport={vp} style={{ marginTop: 32, display: "flex", justifyContent: "center", gap: 20 }}>
+            <a href="#" onClick={handleComingSoon} style={{ color: "#bbb", textDecoration: "none", fontSize: 13, fontWeight: 500 }}>Instagram</a>
+            <a href="#" onClick={handleComingSoon} style={{ color: "#bbb", textDecoration: "none", fontSize: 13, fontWeight: 500 }}>TikTok</a>
+          </motion.div>
         </div>
       </section>
 
       {/* FOOTER — BLACK */}
-      <footer style={{ padding: "48px 32px", background: "#000", borderTop: "1px solid #111" }}>
+      <motion.footer variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} style={{ padding: "48px 32px", background: "#000", borderTop: "1px solid #111" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <img src={WHITE_LOGO} alt="BISK8" style={{ height: 22 }} />
           <div style={{ display: "flex", gap: 24 }}>
@@ -902,9 +908,9 @@ export default function BISK8Landing() {
             <a href="/privacy" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerPrivacy}</a>
             <a href="/contact" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerContact}</a>
           </div>
-          <div style={{ fontSize: 12, color: "#444" }}>{t.footerRights}</div>
+          <div style={{ fontSize: 12, color: "#444", display: "flex", alignItems: "center", gap: 0 }}>{t.footerRights.split("BISK8").map((part, i, arr) => i < arr.length - 1 ? <span key={i}>{part}<img src={WHITE_LOGO} alt="BISK8" style={{ height: 16, opacity: 0.3, verticalAlign: "middle", margin: "0 2px" }} /></span> : <span key={i}>{part}</span>)}</div>
         </div>
-      </footer>
+      </motion.footer>
     </div>
   );
 }

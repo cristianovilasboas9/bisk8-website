@@ -1,20 +1,26 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { LanguageProvider } from './LanguageContext.jsx'
 import BISK8Landing from './App.jsx'
-import CGUPage from './CGUPage.jsx'
-import PrivacyPage from './PrivacyPage.jsx'
-import ContactPage from './ContactPage.jsx'
+
+const CGUPage = React.lazy(() => import('./CGUPage.jsx'))
+const PrivacyPage = React.lazy(() => import('./PrivacyPage.jsx'))
+const ContactPage = React.lazy(() => import('./ContactPage.jsx'))
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<BISK8Landing />} />
-        <Route path="/cgu" element={<CGUPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-      </Routes>
-    </BrowserRouter>
+    <LanguageProvider>
+      <BrowserRouter>
+        <Suspense fallback={<div style={{ background: "#000", minHeight: "100vh" }} />}>
+          <Routes>
+            <Route path="/" element={<BISK8Landing />} />
+            <Route path="/cgu" element={<CGUPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </LanguageProvider>
   </React.StrictMode>
 )
