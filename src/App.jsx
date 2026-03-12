@@ -571,8 +571,8 @@ const staggerContainer = {
   visible: { transition: { staggerChildren: 0.15 } },
 };
 const heroWord = {
-  hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
-  visible: (i = 0) => ({ opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, delay: 0.3 + i * 0.12, ease: [0.22, 1, 0.36, 1] } }),
+  hidden: { opacity: 0, y: 30 },
+  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.3 + i * 0.12, ease: [0.22, 1, 0.36, 1] } }),
 };
 const phoneSlide = {
   hidden: { opacity: 0, x: 120, rotateY: -15 },
@@ -582,6 +582,7 @@ const phoneSlide = {
 function useParallax() {
   const [offset, setOffset] = useState(0);
   useEffect(() => {
+    if (window.innerWidth <= 768) return;
     const handleScroll = () => setOffset(window.scrollY);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -693,6 +694,8 @@ export default function BISK8Landing() {
         .price-card { transition: transform 0.4s ease, box-shadow 0.4s ease; }
         .price-card:hover { transform: translateY(-12px); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
         .nav-glass { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        html, body { overflow-x: hidden; width: 100%; }
+        section { overflow: hidden; }
         .hero-grid { display: grid !important; grid-template-columns: 1fr auto; grid-template-areas: "text phone" "buttons phone"; align-items: center; gap: 80px; }
         .hero-text { grid-area: text; }
         .hero-buttons { grid-area: buttons; display: flex; gap: 12px; flex-wrap: wrap; }
@@ -702,10 +705,12 @@ export default function BISK8Landing() {
           .hero-text { order: 1; }
           .hero-phone { order: 2; margin-top: 40px !important; }
           .hero-buttons { order: 3; margin-top: 24px !important; justify-content: center !important; }
-          .avatar-grid { flex-direction: column !important; }
+          .avatar-grid { flex-direction: column !important; gap: 40px !important; text-align: center !important; }
+          .avatar-comparison { gap: 12px !important; justify-content: center !important; }
+          .avatar-comparison > div > div:first-child { width: 130px !important; height: 173px !important; }
           .features-grid { grid-template-columns: 1fr !important; }
           .pricing-grid { grid-template-columns: 1fr !important; }
-          .steps-grid { flex-direction: column !important; }
+          .steps-grid { flex-direction: column !important; align-items: center !important; }
         }
       `}</style>
 
@@ -804,7 +809,7 @@ export default function BISK8Landing() {
                 <p style={{ fontSize: 16, color: "#999", lineHeight: 1.7, maxWidth: 480 }}>{t.avatarDesc}</p>
               </motion.div>
             </div>
-            <motion.div variants={fadeRight} initial="hidden" whileInView="visible" viewport={vp} style={{ flex: 1, display: "flex", gap: 20, justifyContent: "center" }}>
+            <motion.div className="avatar-comparison" variants={fadeRight} initial="hidden" whileInView="visible" viewport={vp} style={{ flex: 1, display: "flex", gap: 20, justifyContent: "center" }}>
               <div style={{ textAlign: "center" }}>
                 <div style={{ width: 180, height: 240, borderRadius: 20, overflow: "hidden", marginBottom: 12 }}>
                   <img src="/section3_1.png" alt="Before" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 95%" }} />
@@ -884,7 +889,7 @@ export default function BISK8Landing() {
       </section>
 
       {/* CTA FINAL — WHITE */}
-      <section id="download-bottom" style={{ padding: "120px 32px", background: "#fff", color: "#000", textAlign: "center" }}>
+      <section id="download-bottom" style={{ padding: "80px 32px", background: "#fff", color: "#000", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "70vh" }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
           <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 900, marginBottom: 16, letterSpacing: 2 }}>{t.ctaTitle}</motion.h2>
           <motion.p variants={fadeUp} custom={1} initial="hidden" whileInView="visible" viewport={vp} style={{ fontSize: 18, color: "#666", marginBottom: 40 }}>{t.ctaSubtitle.split("BISK8").map((part, i, arr) => <span key={i}>{part}{i < arr.length - 1 && <img src={BLACK_LOGO} alt="BISK8" style={{ height: 23, verticalAlign: "middle", display: "inline", margin: "0 4px", opacity: 0.65 }} />}</span>)}</motion.p>
