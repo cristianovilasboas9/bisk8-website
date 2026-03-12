@@ -20,19 +20,38 @@ const LEGAL_CSS = `
 .legal-content td { font-family: Inter, -apple-system, sans-serif; font-size: 13px; line-height: 1.6; color: #999; padding: 10px 12px; border-bottom: 1px solid #1a1a1a; }
 .legal-content tr:hover td { background: #0a0a0a; }
 .bisk8-inline { height: 13px; vertical-align: middle; opacity: 0.35; margin: 0 2px; }
-.legal-content h1 .bisk8-inline { height: 26px; opacity: 1; }
+.legal-content h1 .bisk8-inline { height: 41px; opacity: 1; }
 .legal-content h2 .bisk8-inline { height: 20px; opacity: 0.9; }
 .legal-content strong .bisk8-inline { height: 13px; opacity: 0.5; }
+.legal-content .company-data .bisk8-inline { height: 16px; opacity: 0.7; margin-left: 0; display: block; margin-top: 12px; margin-bottom: 2px; }
 @media (max-width: 768px) {
   .legal-content h1 { font-size: 22px !important; word-break: break-word; }
   .legal-content h2 { font-size: 18px !important; }
-  .legal-content h1 .bisk8-inline { height: 20px; }
+  .legal-content h1 .bisk8-inline { height: 31px; }
   .legal-content table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
 `;
 
 function processBisk8Logos(html) {
-  return (html || "").replace(/BISK8/g, '<img src="/images/white-logo.svg" alt="BISK8" class="bisk8-inline">');
+  if (!html) return "";
+  const logo = '<img src="/images/white-logo.svg" alt="BISK8" class="bisk8-inline">';
+  // Only replace BISK8 in h1 tags
+  let result = html.replace(/<h1>([\s\S]*?)<\/h1>/g, (match, content) => {
+    return '<h1>' + content.replace(/BISK8/g, logo) + '</h1>';
+  });
+  // Replace BISK8 in company data paragraphs (containing address info), but not inside <strong> tags
+  result = result.replace(/<p>([\s\S]*?)<\/p>/g, (match, content) => {
+    if (content.includes('Barcelos') || content.includes('contact@bisk8.co')) {
+      // Replace BISK8 (and surrounding <br/> tags) only outside of <strong> tags
+      const replaced = content.replace(/(<strong>[\s\S]*?<\/strong>)|(?:<br\s*\/?>)?\s*BISK8\s*(?:<br\s*\/?>)?/g, (m, strongTag) => {
+        if (strongTag) return strongTag; // keep <strong> content as-is
+        return logo;
+      });
+      return '<p class="company-data">' + replaced + '</p>';
+    }
+    return match;
+  });
+  return result;
 }
 
 export default function PrivacyPage() {

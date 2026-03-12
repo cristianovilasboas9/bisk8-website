@@ -739,7 +739,7 @@ export default function BISK8Landing() {
               </div>
             )}
           </div>
-          <a href="#download" style={{ background: "#fff", color: "#000", textDecoration: "none", padding: "8px 20px", borderRadius: 8, fontSize: 13, fontWeight: 700, letterSpacing: 0.5 }}>{t.download}</a>
+          <a href="#download-bottom" style={{ background: "#fff", color: "#000", textDecoration: "none", padding: "8px 20px", borderRadius: 8, fontSize: 13, fontWeight: 700, letterSpacing: 0.5 }}>{t.download}</a>
         </div>
       </nav>
 
