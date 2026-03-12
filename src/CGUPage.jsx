@@ -32,7 +32,7 @@ export default function CGUPage() {
           <div style={{ display: "flex", gap: 24 }}>
             <a href="/cgu" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>CGU</a>
             <a href="/privacy" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>Privacy</a>
-            <a href="mailto:contact@bisk8.co" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>Contact</a>
+            <a href="/contact" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>Contact</a>
           </div>
           <div style={{ fontSize: 12, color: "#444" }}>© 2026 BISK8</div>
         </div>
