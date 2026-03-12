@@ -545,7 +545,7 @@ const translations = {
   },
 };
 
-const languages = ["fr", "en", "de", "es", "it", "pt", "ar", "zh", "ru"];
+const languages = ["en", "pt", "fr", "de", "es", "it", "ar", "zh", "ru"];
 
 const HERO_IMG = "/images/hero.jpg";
 
