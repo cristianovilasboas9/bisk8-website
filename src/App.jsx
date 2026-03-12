@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { useLanguage } from "./LanguageContext.jsx";
 
 
@@ -549,41 +549,189 @@ const languages = ["fr", "en", "de", "es", "it", "pt", "ar", "zh", "ru"];
 
 const HERO_IMG = "/images/hero.jpg";
 
-// Framer Motion animation variants
+// ═══════════════════════════════════════════════════
+// ANIMATION SYSTEM 2026 — Scroll-linked, Apple-style
+// ═══════════════════════════════════════════════════
+
+const EASE = [0.22, 1, 0.36, 1];
+
+// Basic variants (kept for simple elements)
 const fadeUp = {
   hidden: { opacity: 0, y: 60 },
-  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.8, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] } }),
-};
-const fadeLeft = {
-  hidden: { opacity: 0, x: -80 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
-};
-const fadeRight = {
-  hidden: { opacity: 0, x: 80 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
-};
-const scaleUp = {
-  hidden: { opacity: 0, scale: 0.85 },
-  visible: (i = 0) => ({ opacity: 1, scale: 1, transition: { duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] } }),
-};
-const staggerContainer = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
+  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.8, delay: i * 0.15, ease: EASE } }),
 };
 const heroWord = {
   hidden: { opacity: 0, y: 30 },
-  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.3 + i * 0.12, ease: [0.22, 1, 0.36, 1] } }),
+  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.3 + i * 0.12, ease: EASE } }),
 };
 const phoneSlide = {
   hidden: { opacity: 0, x: 120, rotateY: -15 },
-  visible: { opacity: 1, x: 0, rotateY: 0, transition: { duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, x: 0, rotateY: 0, transition: { duration: 1.2, delay: 0.4, ease: EASE } },
+};
+
+// Hero scatter text — letters fly from random positions
+const letterVariant = {
+  hidden: (i) => ({ opacity: 0, y: 40 + Math.random() * 30, x: (Math.random() - 0.5) * 60, rotate: (Math.random() - 0.5) * 20, scale: 0.5 }),
+  visible: (i) => ({ opacity: 1, y: 0, x: 0, rotate: 0, scale: 1, transition: { duration: 0.5, delay: 0.5 + i * 0.025, ease: EASE } }),
+};
+function ScatterText({ text }) {
+  return (
+    <motion.span initial="hidden" animate="visible" style={{ display: "inline" }}>
+      {text.split("").map((char, i) => (
+        <motion.span key={i} custom={i} variants={letterVariant} style={{ display: "inline-block", whiteSpace: char === " " ? "pre" : "normal" }}>
+          {char}
+        </motion.span>
+      ))}
+    </motion.span>
+  );
+}
+
+// Blur-to-sharp for any children (subtitle, paragraphs)
+function BlurReveal({ children, delay = 0, style }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, filter: "blur(12px)", y: 20 }}
+      animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+      transition={{ duration: 1.0, delay, ease: EASE }}
+      style={style}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// Scroll-linked blur-to-sharp heading (word by word)
+function BlurText({ text, style, dark }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 90%", "start 40%"] });
+  const words = text.split(" ");
+  return (
+    <h2 ref={ref} style={style}>
+      {words.map((word, i) => (
+        <BlurWord key={i} progress={scrollYProgress} index={i} total={words.length}>
+          {word}
+        </BlurWord>
+      ))}
+    </h2>
+  );
+}
+function BlurWord({ children, progress, index, total }) {
+  const start = index / (total + 2);
+  const end = (index + 1) / (total + 2);
+  const opacity = useTransform(progress, [start, end], [0, 1]);
+  const blur = useTransform(progress, [start, end], [10, 0]);
+  const y = useTransform(progress, [start, end], [15, 0]);
+  const filter = useTransform(blur, (v) => `blur(${v}px)`);
+  return (
+    <motion.span style={{ display: "inline-block", opacity, filter, y, marginRight: "0.3em" }}>
+      {children}
+    </motion.span>
+  );
+}
+
+// CascadeText — characters drop from above with rotation (Pricing)
+function CascadeText({ text, style }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  return (
+    <motion.h2 ref={ref} style={style} initial="hidden" animate={isInView ? "visible" : "hidden"} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.03 } } }}>
+      {text.split("").map((char, i) => (
+        <motion.span key={i} variants={{ hidden: { opacity: 0, y: -40, rotateX: -90 }, visible: { opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.5, ease: EASE } } }} style={{ display: "inline-block", whiteSpace: char === " " ? "pre" : "normal", transformOrigin: "top" }}>
+          {char}
+        </motion.span>
+      ))}
+    </motion.h2>
+  );
+}
+
+// TiltCard — 3D cursor-following tilt on hover (desktop only)
+function TiltCard({ children, style, className }) {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), { stiffness: 300, damping: 30 });
+  const handleMouse = (e) => {
+    const rect = ref.current.getBoundingClientRect();
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+  const handleLeave = () => { x.set(0); y.set(0); };
+  return (
+    <motion.div ref={ref} onMouseMove={handleMouse} onMouseLeave={handleLeave} className={className} style={{ ...style, rotateX, rotateY, transformPerspective: 800, transformStyle: "preserve-3d" }}>
+      {children}
+    </motion.div>
+  );
+}
+
+// CountUp — animated number counter for steps
+function CountUp({ target, delay = 0 }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!isInView) return;
+    const timeout = setTimeout(() => {
+      let frame = 0;
+      const frames = 30;
+      const interval = setInterval(() => { frame++; setCount(Math.round((frame / frames) * target)); if (frame >= frames) clearInterval(interval); }, 30);
+    }, delay * 1000);
+    return () => clearTimeout(timeout);
+  }, [isInView, target, delay]);
+  return <span ref={ref}>{String(count).padStart(2, "0")}</span>;
+}
+
+// Scroll-linked section wrapper — Apple-style entrance tied to scroll
+function ScrollSection({ children, style, className, id }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "start 20%"] });
+  const opacity = useTransform(scrollYProgress, [0, 0.6, 1], [0, 0.6, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [80, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.96, 1]);
+  return (
+    <motion.section ref={ref} id={id} className={className} style={{ ...style, opacity, y, scale }}>
+      {children}
+    </motion.section>
+  );
+}
+
+// Variants for whileInView elements (steps, cards)
+const clipReveal = {
+  hidden: (i) => ({ clipPath: "inset(100% 0% 0% 0%)", opacity: 0 }),
+  visible: (i) => ({ clipPath: "inset(0% 0% 0% 0%)", opacity: 1, transition: { clipPath: { duration: 1.0, delay: i * 0.25, ease: EASE }, opacity: { duration: 0.4, delay: i * 0.25 } } }),
+};
+const glassRise = {
+  hidden: (i) => ({ opacity: 0, y: 60, scale: 0.95 }),
+  visible: (i) => ({ opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, delay: i * 0.08, ease: EASE } }),
+};
+const slideFromRight = {
+  hidden: (i) => ({ opacity: 0, x: 200 + i * 40, rotateY: -15, scale: 0.9 }),
+  visible: (i) => ({ opacity: 1, x: 0, rotateY: 0, scale: 1, transition: { duration: 0.9, delay: i * 0.12, ease: EASE } }),
+};
+const scaleBurst = {
+  hidden: { opacity: 0, scale: 0.8, filter: "blur(8px)" },
+  visible: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { duration: 1.0, ease: EASE } },
+};
+const springBounce = {
+  hidden: (i = 0) => ({ opacity: 0, y: 40, scale: 0.9 }),
+  visible: (i = 0) => ({ opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 200, damping: 15, delay: 0.4 + i * 0.15 } }),
+};
+const materialize = {
+  hidden: { opacity: 0, scale: 0.9, filter: "blur(8px)" },
+  visible: (i = 0) => ({ opacity: 1, scale: 1, filter: "blur(0px)", transition: { duration: 0.8, delay: 0.6 + i * 0.15, ease: EASE } }),
 };
 
 function useParallax() {
   const [offset, setOffset] = useState(0);
   useEffect(() => {
     if (window.innerWidth <= 768) return;
-    const handleScroll = () => setOffset(window.scrollY);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => { setOffset(window.scrollY); ticking = false; });
+        ticking = true;
+      }
+    };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -659,7 +807,7 @@ export default function BISK8Landing() {
   const [isAnnual, setIsAnnual] = useState(false);
   const t = translations[lang] || translations.fr;
   const scrollY = useParallax();
-  const vp = { once: true, amount: 0.15 };
+  const vp = { once: true, amount: 0.1 };
 
   const prices = {
     solo: isAnnual ? "99.90 CHF" : "9.90 CHF",
@@ -684,8 +832,15 @@ export default function BISK8Landing() {
         @keyframes fadeInRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 20px rgba(0,0,0,0.1); } 50% { box-shadow: 0 0 60px rgba(0,0,0,0.2), 0 0 120px rgba(0,0,0,0.05); } }
         @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.15); } 50% { box-shadow: 0 0 0 20px rgba(255,255,255,0); } }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes borderGlow { 0%, 100% { box-shadow: 0 0 15px rgba(255,255,255,0.08), 0 0 30px rgba(255,255,255,0.04); } 50% { box-shadow: 0 0 25px rgba(255,255,255,0.15), 0 0 50px rgba(255,255,255,0.08); } }
+        @keyframes shimmerBorder { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        @keyframes ctaGlow { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.1); } }
+        .glow-border { position: relative; animation: borderGlow 3s ease-in-out infinite; border: 1px solid rgba(255,255,255,0.1); }
+        .shimmer-border { position: relative; overflow: visible; }
+        .shimmer-border::before { content: ''; position: absolute; inset: -2px; border-radius: 26px; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%); background-size: 200% 100%; animation: shimmerBorder 3s linear infinite; z-index: -1; }
         .badge-btn { display: inline-block; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .badge-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255,255,255,0.1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
@@ -695,7 +850,9 @@ export default function BISK8Landing() {
         .price-card:hover { transform: translateY(-12px); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
         .nav-glass { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         html, body { overflow-x: hidden; width: 100%; }
-        section { overflow: hidden; }
+        section { overflow: hidden; -webkit-transform: translateZ(0); transform: translateZ(0); }
+        .hero-phone { will-change: transform; }
+        .nav-glass { will-change: transform; }
         .hero-grid { display: grid !important; grid-template-columns: 1fr auto; grid-template-areas: "text phone" "buttons phone"; align-items: center; gap: 80px; }
         .hero-text { grid-area: text; }
         .hero-buttons { grid-area: buttons; display: flex; gap: 12px; flex-wrap: wrap; }
@@ -718,6 +875,10 @@ export default function BISK8Landing() {
           .features-grid { grid-template-columns: 1fr !important; }
           .pricing-grid { grid-template-columns: 1fr !important; }
           .avatar-comparison > div > div:first-child { width: 130px !important; height: 173px !important; }
+          .footer-top { flex-direction: column !important; align-items: center !important; gap: 20px !important; text-align: center !important; }
+          .footer-links { gap: 16px !important; }
+          .site-footer > div > div:last-child { justify-content: center !important; text-align: center !important; }
+          .site-footer > div > div:last-child > div { justify-content: center !important; }
         }
       `}</style>
 
@@ -750,18 +911,18 @@ export default function BISK8Landing() {
           <div className="hero-text">
             <motion.div initial="hidden" animate="visible">
               <motion.img variants={heroWord} custom={0} src={WHITE_LOGO} alt="BISK8" style={{ height: 32, marginBottom: 24, opacity: 0.6 }} />
-              <motion.h1 variants={heroWord} custom={1} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: 2, marginBottom: 24, background: "linear-gradient(135deg, #fff 0%, #ccc 50%, #fff 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "gradientShift 6s ease infinite" }}>
-                {t.tagline}
-              </motion.h1>
-              <motion.p variants={heroWord} custom={4} style={{ fontSize: 18, color: "#999", lineHeight: 1.6, maxWidth: 440, fontWeight: 300 }}>{t.subtitle}</motion.p>
+              <h1 className="hero-title" style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: 2, marginBottom: 24, background: "linear-gradient(135deg, #fff 0%, #ccc 50%, #fff 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "gradientShift 6s ease infinite" }}>
+                <ScatterText text={t.tagline} />
+              </h1>
+              <BlurReveal delay={0.8} style={{ fontSize: 18, color: "#999", lineHeight: 1.6, maxWidth: 440, fontWeight: 300 }}>{t.subtitle}</BlurReveal>
             </motion.div>
           </div>
           <motion.div className="hero-buttons" initial="hidden" animate="visible" id="download">
-            <motion.a variants={heroWord} custom={5} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#fff", color: "#000", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, animation: "pulse 3s ease infinite" }}>
+            <motion.a variants={materialize} custom={0} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#fff", color: "#000", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
               <svg width="20" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
               <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>DOWNLOAD ON THE</div><div style={{ fontSize: 15, fontWeight: 700 }}>App Store</div></div>
             </motion.a>
-            <motion.a variants={heroWord} custom={6} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "transparent", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, border: "1px solid rgba(255,255,255,0.2)" }}>
+            <motion.a variants={materialize} custom={1} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "transparent", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, border: "1px solid rgba(255,255,255,0.2)" }}>
               <svg width="20" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.5 12.92 20.16 13.19L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/></svg>
               <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>GET IT ON</div><div style={{ fontSize: 15, fontWeight: 700 }}>Google Play</div></div>
             </motion.a>
@@ -782,17 +943,17 @@ export default function BISK8Landing() {
       </section>
 
       {/* HOW IT WORKS — WHITE */}
-      <section style={{ padding: "120px 32px", background: "#fff", color: "#000", position: "relative" }}>
+      <ScrollSection style={{ padding: "120px 32px", background: "#fff", color: "#000", position: "relative" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 80, letterSpacing: 2 }}>{t.howItWorks}</motion.h2>
+          <BlurText text={t.howItWorks} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 80, letterSpacing: 2 }} />
           <div className="steps-grid" style={{ display: "flex", gap: 48, justifyContent: "center" }}>
             {[
               { num: "01", title: t.step1Title, desc: t.step1Desc, img: STEP1_IMG },
               { num: "02", title: t.step2Title, desc: t.step2Desc, img: STEP2_IMG },
               { num: "03", title: t.step3Title, desc: t.step3Desc, img: STEP3_IMG },
             ].map((step, i) => (
-              <motion.div key={i} variants={scaleUp} custom={i} initial="hidden" whileInView="visible" viewport={vp} style={{ flex: 1, textAlign: "center", maxWidth: 300 }}>
-                <div style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 72, fontWeight: 900, color: "rgba(0,0,0,0.06)", marginBottom: -24, position: "relative", zIndex: 0, letterSpacing: 4 }}>{step.num}</div>
+              <motion.div key={i} variants={clipReveal} custom={i} initial="hidden" whileInView="visible" viewport={vp} style={{ flex: 1, textAlign: "center", maxWidth: 300 }}>
+                <div style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 72, fontWeight: 900, color: "rgba(0,0,0,0.06)", marginBottom: -24, position: "relative", zIndex: 0, letterSpacing: 4 }}><CountUp target={parseInt(step.num)} delay={i * 0.25} /></div>
                 <div style={{ width: 220, height: 440, margin: "0 auto", borderRadius: 28, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.12)", border: "3px solid #e8e8e8" }}>
                   <img src={step.img} alt={step.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                 </div>
@@ -802,30 +963,30 @@ export default function BISK8Landing() {
             ))}
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
       {/* AVATAR IA — BLACK */}
-      <section style={{ padding: "120px 32px", background: "#000", position: "relative", overflow: "hidden" }}>
+      <ScrollSection style={{ padding: "120px 32px", background: "#000", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 30% 50%, rgba(60,60,60,0.2) 0%, transparent 60%)" }} />
         <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
           <div className="avatar-grid" style={{ display: "flex", alignItems: "center", gap: 80 }}>
             <div style={{ flex: 1 }}>
-              <motion.div variants={fadeLeft} initial="hidden" whileInView="visible" viewport={vp}>
+              <motion.div initial={{ opacity: 0, x: -60, filter: "blur(8px)" }} whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }} transition={{ duration: 1.0, ease: EASE }} viewport={{ once: false, amount: 0.3 }}>
                 <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, color: "#666", textTransform: "uppercase", marginBottom: 16 }}>AI AVATAR</div>
                 <h2 style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, marginBottom: 16, lineHeight: 1.1, letterSpacing: 2 }}>{t.avatarTagline}</h2>
                 <p style={{ fontSize: 16, color: "#999", lineHeight: 1.7, maxWidth: 480 }}>{t.avatarDesc}</p>
               </motion.div>
             </div>
-            <motion.div className="avatar-comparison" variants={fadeRight} initial="hidden" whileInView="visible" viewport={vp} style={{ flex: 1, display: "flex", gap: 20, justifyContent: "center" }}>
+            <motion.div className="avatar-comparison" initial={{ opacity: 0, x: 60, filter: "blur(8px)" }} whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }} transition={{ duration: 1.0, delay: 0.2, ease: EASE }} viewport={{ once: false, amount: 0.3 }} style={{ flex: 1, display: "flex", gap: 20, justifyContent: "center" }}>
               <div style={{ textAlign: "center" }}>
-                <div style={{ width: 180, height: 240, borderRadius: 20, overflow: "hidden", marginBottom: 12 }}>
+                <div className="glow-border" style={{ width: 180, height: 240, borderRadius: 20, overflow: "hidden", marginBottom: 12 }}>
                   <img src="/section3_1.png" alt="Before" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 95%" }} />
                 </div>
                 <div style={{ fontSize: 12, color: "#666", fontWeight: 500 }}>{t.before}</div>
               </div>
               <div style={{ display: "flex", alignItems: "center", fontSize: 24, color: "#444" }}>→</div>
               <div style={{ textAlign: "center" }}>
-                <div style={{ width: 180, height: 240, borderRadius: 20, overflow: "hidden", marginBottom: 12 }}>
+                <div className="glow-border" style={{ width: 180, height: 240, borderRadius: 20, overflow: "hidden", marginBottom: 12 }}>
                   <img src="/section3_2.png" alt="After" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
                 <div style={{ fontSize: 12, color: "#999", fontWeight: 600 }}>{t.after}</div>
@@ -833,12 +994,12 @@ export default function BISK8Landing() {
             </motion.div>
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
       {/* FEATURES — WHITE */}
-      <section style={{ padding: "120px 32px", background: "#fff", color: "#000" }}>
+      <ScrollSection style={{ padding: "120px 32px", background: "#fff", color: "#000" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 64, letterSpacing: 2 }}>{t.featuresTitle}</motion.h2>
+          <BlurText text={t.featuresTitle} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 64, letterSpacing: 2 }} />
           <div className="features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
             {[
               { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C10.34 2 9 3.34 9 5c0 1.31.83 2.42 2 2.83V9"/><path d="M12 9L3 16h18L12 9Z"/></svg>', title: t.feat1Title, desc: t.feat1Desc },
@@ -848,21 +1009,23 @@ export default function BISK8Landing() {
               { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>', title: t.feat5Title, desc: t.feat5Desc },
               { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>', title: t.feat6Title, desc: t.feat6Desc },
             ].map((f, i) => (
-              <motion.div key={i} className="feature-card" variants={fadeUp} custom={i} initial="hidden" whileInView="visible" viewport={vp} whileHover={{ y: -8, boxShadow: "0 20px 40px rgba(0,0,0,0.15)" }} style={{ background: "#fafafa", borderRadius: 20, padding: 32, border: "1px solid #eee", cursor: "default" }}>
-                <div style={{ marginBottom: 16 }} dangerouslySetInnerHTML={{ __html: f.icon }} />
-                <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>{f.title}</h3>
-                <p style={{ fontSize: 14, color: "#666", lineHeight: 1.6 }}>{f.desc}</p>
-              </motion.div>
+              <TiltCard key={i} className="feature-card" style={{ background: "#fafafa", borderRadius: 20, padding: 32, border: "1px solid #eee", cursor: "default" }}>
+                <motion.div variants={glassRise} custom={i} initial="hidden" whileInView="visible" viewport={vp}>
+                  <div style={{ marginBottom: 16 }} dangerouslySetInnerHTML={{ __html: f.icon }} />
+                  <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>{f.title}</h3>
+                  <p style={{ fontSize: 14, color: "#666", lineHeight: 1.6 }}>{f.desc}</p>
+                </motion.div>
+              </TiltCard>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
       {/* PRICING — BLACK */}
-      <section style={{ padding: "120px 32px", background: "#000", position: "relative" }}>
+      <ScrollSection style={{ padding: "120px 32px", background: "#000", position: "relative" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%, rgba(40,40,40,0.3) 0%, transparent 60%)" }} />
         <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
-          <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 24, letterSpacing: 2 }}>{t.pricingTitle}</motion.h2>
+          <CascadeText text={t.pricingTitle} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 24, letterSpacing: 2, color: "#fff" }} />
           <motion.div variants={fadeUp} custom={1} initial="hidden" whileInView="visible" viewport={vp} style={{ display: "flex", justifyContent: "center", marginBottom: 48 }}>
             <div style={{ background: "#111", borderRadius: 12, padding: 4, display: "flex", gap: 4 }}>
               <button onClick={() => setIsAnnual(false)} style={{ padding: "8px 20px", borderRadius: 8, border: "none", background: !isAnnual ? "#fff" : "transparent", color: !isAnnual ? "#000" : "#888", fontWeight: 600, fontSize: 13, cursor: "pointer", fontFamily: "'HighCruiser', sans-serif" }}>{t.monthly}</button>
@@ -876,7 +1039,7 @@ export default function BISK8Landing() {
               { name: t.couple, price: prices.couple, period: prices.period, perks: [t.couplePerk1, t.couplePerk2, t.couplePerk3], highlight: false, discount: isAnnual },
               { name: t.famille, price: prices.famille, period: prices.period, perks: [t.famillePerk1, t.famillePerk2, t.famillePerk3], highlight: false, discount: isAnnual },
             ].map((plan, i) => (
-              <motion.div key={i} className="price-card" variants={plan.highlight ? scaleUp : fadeUp} custom={i} initial="hidden" whileInView="visible" viewport={vp} whileHover={{ y: -12, boxShadow: "0 30px 60px rgba(0,0,0,0.4)" }} style={{ background: plan.highlight ? "#fff" : "#111", color: plan.highlight ? "#000" : "#fff", borderRadius: 24, padding: "36px 24px", border: plan.highlight ? "none" : "1px solid #222", position: "relative" }}>
+              <motion.div key={i} className={`price-card${plan.highlight ? " shimmer-border" : ""}`} variants={slideFromRight} custom={i} initial="hidden" whileInView="visible" viewport={vp} whileHover={{ y: -12, boxShadow: "0 30px 60px rgba(0,0,0,0.4)" }} style={{ background: plan.highlight ? "#fff" : "#111", color: plan.highlight ? "#000" : "#fff", borderRadius: 24, padding: "36px 24px", border: plan.highlight ? "none" : "1px solid #222", position: "relative", transformPerspective: 800 }}>
                 {plan.highlight && <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "#000", color: "#fff", fontSize: 10, fontWeight: 700, padding: "4px 16px", borderRadius: 20, letterSpacing: 1 }}>{t.popular}</div>}
                 <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, letterSpacing: 1 }}>{plan.name}</div>
                 <div style={{ marginBottom: 24 }}>
@@ -893,38 +1056,43 @@ export default function BISK8Landing() {
             ))}
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
-      {/* CTA FINAL — WHITE */}
-      <section id="download-bottom" style={{ padding: "80px 32px", background: "#fff", color: "#000", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "70vh" }}>
-        <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 900, marginBottom: 16, letterSpacing: 2 }}>{t.ctaTitle}</motion.h2>
-          <motion.p variants={fadeUp} custom={1} initial="hidden" whileInView="visible" viewport={vp} style={{ fontSize: 18, color: "#666", marginBottom: 40 }}>{t.ctaSubtitle.split("BISK8").map((part, i, arr) => <span key={i}>{part}{i < arr.length - 1 && <img src={BLACK_LOGO} alt="BISK8" style={{ height: 23, verticalAlign: "middle", display: "inline", margin: "0 4px", opacity: 0.65 }} />}</span>)}</motion.p>
-          <motion.div variants={fadeUp} custom={2} initial="hidden" whileInView="visible" viewport={vp} style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#000", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
+      {/* CTA FINAL — WHITE + GLOW */}
+      <section id="download-bottom" className="cta-glow" style={{ padding: "80px 32px", background: "#fff", color: "#000", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "70vh", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 50%, rgba(200,200,200,0.3) 0%, transparent 60%)", animation: "ctaGlow 4s ease-in-out infinite" }} />
+        <div style={{ maxWidth: 600, margin: "0 auto", position: "relative" }}>
+          <motion.h2 variants={scaleBurst} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 900, marginBottom: 16, letterSpacing: 2 }}>{t.ctaTitle}</motion.h2>
+          <motion.p variants={springBounce} custom={0} initial="hidden" whileInView="visible" viewport={vp} style={{ fontSize: 18, color: "#666", marginBottom: 40 }}>{t.ctaSubtitle.split("BISK8").map((part, i, arr) => <span key={i}>{part}{i < arr.length - 1 && <img src={BLACK_LOGO} alt="BISK8" style={{ height: 23, verticalAlign: "middle", display: "inline", margin: "0 4px", opacity: 0.65 }} />}</span>)}</motion.p>
+          <motion.div initial="hidden" whileInView="visible" viewport={vp} style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <motion.a variants={springBounce} custom={1} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#000", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
               <svg width="20" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
               <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>DOWNLOAD ON THE</div><div style={{ fontSize: 15, fontWeight: 700 }}>App Store</div></div>
-            </a>
-            <a href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#000", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
+            </motion.a>
+            <motion.a variants={springBounce} custom={2} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#000", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
               <svg width="20" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.5 12.92 20.16 13.19L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/></svg>
               <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>GET IT ON</div><div style={{ fontSize: 15, fontWeight: 700 }}>Google Play</div></div>
-            </a>
+            </motion.a>
           </motion.div>
         </div>
       </section>
 
       {/* FOOTER — BLACK */}
-      <motion.footer variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} style={{ padding: "48px 32px", background: "#000", borderTop: "1px solid #111" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-          <img src={WHITE_LOGO} alt="BISK8" style={{ height: 22 }} />
-          <div style={{ display: "flex", gap: 24 }}>
-            <a href="/cgu" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerTerms}</a>
-            <a href="/privacy" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerPrivacy}</a>
-            <a href="/contact" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerContact}</a>
-          </div>
-          <div style={{ fontSize: 12, color: "#444", display: "flex", alignItems: "center", gap: 0 }}>{t.footerRights.split("BISK8").map((part, i, arr) => i < arr.length - 1 ? <span key={i}>{part}<img src={WHITE_LOGO} alt="BISK8" style={{ height: 16, opacity: 0.3, verticalAlign: "middle", margin: "0 2px" }} /></span> : <span key={i}>{part}</span>)}</div>
+      <footer className="site-footer" style={{ padding: "48px 32px", background: "#000", borderTop: "1px solid #111" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <motion.div className="footer-top" variants={fadeUp} custom={0} initial="hidden" whileInView="visible" viewport={vp} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+            <img src={WHITE_LOGO} alt="BISK8" style={{ height: 22 }} />
+            <div className="footer-links" style={{ display: "flex", gap: 24 }}>
+              <a href="/cgu" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerTerms}</a>
+              <a href="/privacy" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerPrivacy}</a>
+              <a href="/contact" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerContact}</a>
+            </div>
+          </motion.div>
+          <motion.div variants={fadeUp} custom={1} initial="hidden" whileInView="visible" viewport={vp} style={{ borderTop: "1px solid #111", paddingTop: 16 }}>
+            <div style={{ fontSize: 12, color: "#444", display: "flex", alignItems: "center", gap: 0 }}>{t.footerRights.split("BISK8").map((part, i, arr) => i < arr.length - 1 ? <span key={i}>{part}<img src={WHITE_LOGO} alt="BISK8" style={{ height: 14, opacity: 0.3, verticalAlign: "middle", margin: "0 2px" }} /></span> : <span key={i}>{part}</span>)}</div>
+          </motion.div>
         </div>
-      </motion.footer>
+      </footer>
     </div>
   );
 }
