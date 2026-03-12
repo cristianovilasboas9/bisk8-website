@@ -997,7 +997,7 @@ export default function BISK8Landing() {
       </ScrollSection>
 
       {/* FEATURES — WHITE */}
-      <ScrollSection style={{ padding: "120px 32px", background: "#fff", color: "#000" }}>
+      <section style={{ padding: "120px 32px", background: "#fff", color: "#000" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <BlurText text={t.featuresTitle} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 64, letterSpacing: 2 }} />
           <div className="features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
@@ -1019,10 +1019,10 @@ export default function BISK8Landing() {
             ))}
           </div>
         </div>
-      </ScrollSection>
+      </section>
 
       {/* PRICING — BLACK */}
-      <ScrollSection style={{ padding: "120px 32px", background: "#000", position: "relative" }}>
+      <section style={{ padding: "120px 32px", background: "#000", position: "relative" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%, rgba(40,40,40,0.3) 0%, transparent 60%)" }} />
         <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
           <CascadeText text={t.pricingTitle} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 24, letterSpacing: 2, color: "#fff" }} />
@@ -1039,7 +1039,7 @@ export default function BISK8Landing() {
               { name: t.couple, price: prices.couple, period: prices.period, perks: [t.couplePerk1, t.couplePerk2, t.couplePerk3], highlight: false, discount: isAnnual },
               { name: t.famille, price: prices.famille, period: prices.period, perks: [t.famillePerk1, t.famillePerk2, t.famillePerk3], highlight: false, discount: isAnnual },
             ].map((plan, i) => (
-              <motion.div key={i} className={`price-card${plan.highlight ? " shimmer-border" : ""}`} variants={slideFromRight} custom={i} initial="hidden" whileInView="visible" viewport={vp} whileHover={{ y: -12, boxShadow: "0 30px 60px rgba(0,0,0,0.4)" }} style={{ background: plan.highlight ? "#fff" : "#111", color: plan.highlight ? "#000" : "#fff", borderRadius: 24, padding: "36px 24px", border: plan.highlight ? "none" : "1px solid #222", position: "relative", transformPerspective: 800 }}>
+              <motion.div key={i} className={`price-card${plan.highlight ? " shimmer-border" : ""}`} variants={fadeUp} custom={i} initial="hidden" whileInView="visible" viewport={vp} whileHover={{ y: -12, boxShadow: "0 30px 60px rgba(0,0,0,0.4)" }} style={{ background: plan.highlight ? "#fff" : "#111", color: plan.highlight ? "#000" : "#fff", borderRadius: 24, padding: "36px 24px", border: plan.highlight ? "none" : "1px solid #222", position: "relative" }}>
                 {plan.highlight && <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "#000", color: "#fff", fontSize: 10, fontWeight: 700, padding: "4px 16px", borderRadius: 20, letterSpacing: 1 }}>{t.popular}</div>}
                 <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, letterSpacing: 1 }}>{plan.name}</div>
                 <div style={{ marginBottom: 24 }}>
@@ -1056,7 +1056,7 @@ export default function BISK8Landing() {
             ))}
           </div>
         </div>
-      </ScrollSection>
+      </section>
 
       {/* CTA FINAL — WHITE + GLOW */}
       <section id="download-bottom" className="cta-glow" style={{ padding: "80px 32px", background: "#fff", color: "#000", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "70vh", position: "relative", overflow: "hidden" }}>
