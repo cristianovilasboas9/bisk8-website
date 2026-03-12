@@ -943,7 +943,7 @@ export default function BISK8Landing() {
       </section>
 
       {/* HOW IT WORKS — WHITE */}
-      <ScrollSection style={{ padding: "120px 32px", background: "#fff", color: "#000", position: "relative" }}>
+      <section style={{ padding: "120px 32px", background: "#fff", color: "#000", position: "relative" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <BlurText text={t.howItWorks} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 80, letterSpacing: 2 }} />
           <div className="steps-grid" style={{ display: "flex", gap: 48, justifyContent: "center" }}>
@@ -952,7 +952,7 @@ export default function BISK8Landing() {
               { num: "02", title: t.step2Title, desc: t.step2Desc, img: STEP2_IMG },
               { num: "03", title: t.step3Title, desc: t.step3Desc, img: STEP3_IMG },
             ].map((step, i) => (
-              <motion.div key={i} variants={clipReveal} custom={i} initial="hidden" whileInView="visible" viewport={vp} style={{ flex: 1, textAlign: "center", maxWidth: 300 }}>
+              <motion.div key={i} variants={fadeUp} custom={i} initial="hidden" whileInView="visible" viewport={vp} style={{ flex: 1, textAlign: "center", maxWidth: 300 }}>
                 <div style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 72, fontWeight: 900, color: "rgba(0,0,0,0.06)", marginBottom: -24, position: "relative", zIndex: 0, letterSpacing: 4 }}><CountUp target={parseInt(step.num)} delay={i * 0.25} /></div>
                 <div style={{ width: 220, height: 440, margin: "0 auto", borderRadius: 28, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.12)", border: "3px solid #e8e8e8" }}>
                   <img src={step.img} alt={step.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -963,7 +963,7 @@ export default function BISK8Landing() {
             ))}
           </div>
         </div>
-      </ScrollSection>
+      </section>
 
       {/* AVATAR IA — BLACK */}
       <ScrollSection style={{ padding: "120px 32px", background: "#000", position: "relative", overflow: "hidden" }}>
