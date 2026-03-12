@@ -693,9 +693,15 @@ export default function BISK8Landing() {
         .price-card { transition: transform 0.4s ease, box-shadow 0.4s ease; }
         .price-card:hover { transform: translateY(-12px); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
         .nav-glass { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .hero-grid { display: grid !important; grid-template-columns: 1fr auto; grid-template-areas: "text phone" "buttons phone"; align-items: center; gap: 80px; }
+        .hero-text { grid-area: text; }
+        .hero-buttons { grid-area: buttons; display: flex; gap: 12px; flex-wrap: wrap; }
+        .hero-phone { grid-area: phone; align-self: center; }
         @media (max-width: 768px) {
-          .hero-grid { flex-direction: column !important; text-align: center !important; }
-          .hero-phone { margin-top: 40px !important; }
+          .hero-grid { display: flex !important; flex-direction: column !important; text-align: center !important; gap: 0px !important; }
+          .hero-text { order: 1; }
+          .hero-phone { order: 2; margin-top: 40px !important; }
+          .hero-buttons { order: 3; margin-top: 24px !important; justify-content: center !important; }
           .avatar-grid { flex-direction: column !important; }
           .features-grid { grid-template-columns: 1fr !important; }
           .pricing-grid { grid-template-columns: 1fr !important; }
@@ -728,27 +734,27 @@ export default function BISK8Landing() {
       {/* HERO — BLACK */}
       <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "120px 32px 80px", background: "radial-gradient(ellipse at 50% 0%, rgba(40,40,40,0.5) 0%, #000 70%)", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: "url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 800\"><circle cx=\"400\" cy=\"400\" r=\"300\" fill=\"none\" stroke=\"rgba(255,255,255,0.02)\" stroke-width=\"1\"/><circle cx=\"400\" cy=\"400\" r=\"200\" fill=\"none\" stroke=\"rgba(255,255,255,0.015)\" stroke-width=\"1\"/><circle cx=\"400\" cy=\"400\" r=\"100\" fill=\"none\" stroke=\"rgba(255,255,255,0.01)\" stroke-width=\"1\"/></svg>')", backgroundSize: "800px", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
-        <div className="hero-grid" style={{ maxWidth: 1100, margin: "0 auto", display: "flex", alignItems: "center", gap: 80, position: "relative" }}>
-          <div style={{ flex: 1 }}>
-            <motion.div initial="hidden" animate="visible" style={{ marginBottom: 32 }}>
+        <div className="hero-grid" style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
+          <div className="hero-text">
+            <motion.div initial="hidden" animate="visible">
               <motion.img variants={heroWord} custom={0} src={WHITE_LOGO} alt="BISK8" style={{ height: 32, marginBottom: 24, opacity: 0.6 }} />
               <motion.h1 variants={heroWord} custom={1} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: 2, marginBottom: 24, background: "linear-gradient(135deg, #fff 0%, #ccc 50%, #fff 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "gradientShift 6s ease infinite" }}>
                 {t.tagline}
               </motion.h1>
               <motion.p variants={heroWord} custom={4} style={{ fontSize: 18, color: "#999", lineHeight: 1.6, maxWidth: 440, fontWeight: 300 }}>{t.subtitle}</motion.p>
             </motion.div>
-            <motion.div initial="hidden" animate="visible" style={{ display: "flex", gap: 12, flexWrap: "wrap" }} id="download">
-              <motion.a variants={heroWord} custom={5} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#fff", color: "#000", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, animation: "pulse 3s ease infinite" }}>
-                <svg width="20" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
-                <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>DOWNLOAD ON THE</div><div style={{ fontSize: 15, fontWeight: 700 }}>App Store</div></div>
-              </motion.a>
-              <motion.a variants={heroWord} custom={6} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "transparent", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, border: "1px solid rgba(255,255,255,0.2)" }}>
-                <svg width="20" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.5 12.92 20.16 13.19L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/></svg>
-                <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>GET IT ON</div><div style={{ fontSize: 15, fontWeight: 700 }}>Google Play</div></div>
-              </motion.a>
-            </motion.div>
           </div>
-          <motion.div className="hero-phone" initial="hidden" animate="visible" variants={phoneSlide} style={{ flex: "0 0 auto", perspective: 1200 }}>
+          <motion.div className="hero-buttons" initial="hidden" animate="visible" id="download">
+            <motion.a variants={heroWord} custom={5} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#fff", color: "#000", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, animation: "pulse 3s ease infinite" }}>
+              <svg width="20" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+              <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>DOWNLOAD ON THE</div><div style={{ fontSize: 15, fontWeight: 700 }}>App Store</div></div>
+            </motion.a>
+            <motion.a variants={heroWord} custom={6} href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "transparent", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, border: "1px solid rgba(255,255,255,0.2)" }}>
+              <svg width="20" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.5 12.92 20.16 13.19L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/></svg>
+              <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>GET IT ON</div><div style={{ fontSize: 15, fontWeight: 700 }}>Google Play</div></div>
+            </motion.a>
+          </motion.div>
+          <motion.div className="hero-phone" initial="hidden" animate="visible" variants={phoneSlide} style={{ perspective: 1200 }}>
             <div style={{ animation: "float 6s ease-in-out infinite", transform: `translateY(${-scrollY * 0.08}px)` }}>
               <div style={{
                 width: 280, height: 500, borderRadius: 40, border: '4px solid #333',
@@ -891,10 +897,6 @@ export default function BISK8Landing() {
               <svg width="20" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.5 12.92 20.16 13.19L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/></svg>
               <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>GET IT ON</div><div style={{ fontSize: 15, fontWeight: 700 }}>Google Play</div></div>
             </a>
-          </motion.div>
-          <motion.div variants={fadeUp} custom={3} initial="hidden" whileInView="visible" viewport={vp} style={{ marginTop: 32, display: "flex", justifyContent: "center", gap: 20 }}>
-            <a href="#" onClick={handleComingSoon} style={{ color: "#bbb", textDecoration: "none", fontSize: 13, fontWeight: 500 }}>Instagram</a>
-            <a href="#" onClick={handleComingSoon} style={{ color: "#bbb", textDecoration: "none", fontSize: 13, fontWeight: 500 }}>TikTok</a>
           </motion.div>
         </div>
       </section>
