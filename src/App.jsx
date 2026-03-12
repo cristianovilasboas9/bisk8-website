@@ -18,7 +18,7 @@ const translations = {
     step1Title: "Photographie",
     step1Desc: "Prends en photo tes vêtements. L'IA les transforme en images professionnelles.",
     step2Title: "Organise",
-    step2Desc: "Ton dressing virtuel, organisé par catégorie. 39 sous-catégories intelligentes.",
+    step2Desc: "Ton dressing virtuel, organisé par catégorie. 40 sous-catégories intelligentes.",
     step3Title: "Visualise",
     step3Desc: "Vois-toi dans tes looks. Ton avatar IA porte tes vêtements.",
     avatarSection: "Ton Avatar IA",
@@ -28,7 +28,7 @@ const translations = {
     after: "Toi, habillé(e)",
     featuresTitle: "Tout ce dont tu as besoin",
     feat1Title: "Dressing IA",
-    feat1Desc: "7 catégories, 39 sous-catégories. L'IA classe et régénère chaque pièce automatiquement.",
+    feat1Desc: "6 catégories, 40 sous-catégories. L'IA classe et régénère chaque pièce automatiquement.",
     feat2Title: "Planning 7 jours",
     feat2Desc: "Planifie tes tenues pour la semaine. Notification chaque soir avec ton look de demain.",
     feat3Title: "Mode Couple",
@@ -49,12 +49,12 @@ const translations = {
     monthly: "Mensuel",
     annual: "Annuel",
     popular: "Populaire",
-    freePerk1: "2 pièces par catégorie",
+    freePerk1: "2 pièces par catégorie (14 au total)",
     freePerk2: "Avatar IA réaliste",
     freePerk3: "Planning basique",
     soloPerk1: "Vêtements illimités",
     soloPerk2: "Looks IA réalistes",
-    soloPerk3: "Statistiques avancées",
+    soloPerk3: "Statistiques avancées", soloPerk4: "Voyages",
     couplePerk1: "Tout Solo × 2",
     couplePerk2: "Propositions de tenues",
     couplePerk3: "Dressing partagé",
@@ -77,7 +77,7 @@ const translations = {
     step1Title: "Photograph",
     step1Desc: "Take a photo of your clothes. AI transforms them into professional images.",
     step2Title: "Organize",
-    step2Desc: "Your virtual wardrobe, organized by category. 39 smart subcategories.",
+    step2Desc: "Your virtual wardrobe, organized by category. 40 smart subcategories.",
     step3Title: "Visualize",
     step3Desc: "See yourself in your looks. Your AI avatar wears your clothes.",
     avatarSection: "Your AI Avatar",
@@ -87,7 +87,7 @@ const translations = {
     after: "You, dressed",
     featuresTitle: "Everything you need",
     feat1Title: "AI Wardrobe",
-    feat1Desc: "7 categories, 39 subcategories. AI classifies and regenerates each piece automatically.",
+    feat1Desc: "6 categories, 40 subcategories. AI classifies and regenerates each piece automatically.",
     feat2Title: "7-Day Planning",
     feat2Desc: "Plan your outfits for the week. Get a notification every evening with tomorrow's look.",
     feat3Title: "Couple Mode",
@@ -108,12 +108,12 @@ const translations = {
     monthly: "Monthly",
     annual: "Annual",
     popular: "Popular",
-    freePerk1: "2 items per category",
+    freePerk1: "2 items per category (14 total)",
     freePerk2: "Realistic AI avatar",
     freePerk3: "Basic planning",
     soloPerk1: "Unlimited clothes",
     soloPerk2: "Realistic AI looks",
-    soloPerk3: "Advanced statistics",
+    soloPerk3: "Advanced statistics", soloPerk4: "Travel",
     couplePerk1: "Everything Solo × 2",
     couplePerk2: "Outfit proposals",
     couplePerk3: "Shared wardrobe",
@@ -136,7 +136,7 @@ const translations = {
     step1Title: "Fotografieren",
     step1Desc: "Fotografiere deine Kleidung. Die KI verwandelt sie in professionelle Bilder.",
     step2Title: "Organisieren",
-    step2Desc: "Dein virtueller Kleiderschrank, nach Kategorie sortiert. 39 smarte Unterkategorien.",
+    step2Desc: "Dein virtueller Kleiderschrank, nach Kategorie sortiert. 40 smarte Unterkategorien.",
     step3Title: "Visualisieren",
     step3Desc: "Sieh dich in deinen Looks. Dein KI-Avatar trägt deine Kleidung.",
     avatarSection: "Dein KI-Avatar",
@@ -146,7 +146,7 @@ const translations = {
     after: "Du, angezogen",
     featuresTitle: "Alles was du brauchst",
     feat1Title: "KI-Kleiderschrank",
-    feat1Desc: "7 Kategorien, 39 Unterkategorien. Die KI klassifiziert und regeneriert jedes Stück automatisch.",
+    feat1Desc: "6 Kategorien, 40 Unterkategorien. Die KI klassifiziert und regeneriert jedes Stück automatisch.",
     feat2Title: "7-Tage-Planung",
     feat2Desc: "Plane deine Outfits für die Woche. Jeden Abend eine Benachrichtigung mit dem Look von morgen.",
     feat3Title: "Paar-Modus",
@@ -167,12 +167,12 @@ const translations = {
     monthly: "Monatlich",
     annual: "Jährlich",
     popular: "Beliebt",
-    freePerk1: "2 Stücke pro Kategorie",
+    freePerk1: "2 Stücke pro Kategorie (14 insgesamt)",
     freePerk2: "Realistischer KI-Avatar",
     freePerk3: "Basisplanung",
     soloPerk1: "Unbegrenzte Kleidung",
     soloPerk2: "Realistische KI-Looks",
-    soloPerk3: "Erweiterte Statistiken",
+    soloPerk3: "Erweiterte Statistiken", soloPerk4: "Reisen",
     couplePerk1: "Alles von Solo × 2",
     couplePerk2: "Outfit-Vorschläge",
     couplePerk3: "Geteilter Kleiderschrank",
@@ -195,7 +195,7 @@ const translations = {
     step1Title: "Fotografía",
     step1Desc: "Toma fotos de tu ropa. La IA las transforma en imágenes profesionales.",
     step2Title: "Organiza",
-    step2Desc: "Tu armario virtual, organizado por categoría. 39 subcategorías inteligentes.",
+    step2Desc: "Tu armario virtual, organizado por categoría. 40 subcategorías inteligentes.",
     step3Title: "Visualiza",
     step3Desc: "Mírate con tus looks. Tu avatar IA lleva tu ropa.",
     avatarSection: "Tu Avatar IA",
@@ -205,7 +205,7 @@ const translations = {
     after: "Tú, vestido/a",
     featuresTitle: "Todo lo que necesitas",
     feat1Title: "Armario IA",
-    feat1Desc: "7 categorías, 39 subcategorías. La IA clasifica y regenera cada prenda automáticamente.",
+    feat1Desc: "6 categorías, 40 subcategorías. La IA clasifica y regenera cada prenda automáticamente.",
     feat2Title: "Planificación 7 días",
     feat2Desc: "Planifica tus outfits para la semana. Notificación cada noche con el look de mañana.",
     feat3Title: "Modo Pareja",
@@ -226,12 +226,12 @@ const translations = {
     monthly: "Mensual",
     annual: "Anual",
     popular: "Popular",
-    freePerk1: "2 prendas por categoría",
+    freePerk1: "2 prendas por categoría (14 en total)",
     freePerk2: "Avatar IA realista",
     freePerk3: "Planificación básica",
     soloPerk1: "Ropa ilimitada",
     soloPerk2: "Looks IA realistas",
-    soloPerk3: "Estadísticas avanzadas",
+    soloPerk3: "Estadísticas avanzadas", soloPerk4: "Viajes",
     couplePerk1: "Todo Solo × 2",
     couplePerk2: "Propuestas de outfits",
     couplePerk3: "Armario compartido",
@@ -254,7 +254,7 @@ const translations = {
     step1Title: "Fotografa",
     step1Desc: "Scatta foto dei tuoi vestiti. L'IA li trasforma in immagini professionali.",
     step2Title: "Organizza",
-    step2Desc: "Il tuo guardaroba virtuale, organizzato per categoria. 39 sottocategorie intelligenti.",
+    step2Desc: "Il tuo guardaroba virtuale, organizzato per categoria. 40 sottocategorie intelligenti.",
     step3Title: "Visualizza",
     step3Desc: "Guardati nei tuoi look. Il tuo avatar IA indossa i tuoi vestiti.",
     avatarSection: "Il tuo Avatar IA",
@@ -264,7 +264,7 @@ const translations = {
     after: "Tu, vestito/a",
     featuresTitle: "Tutto ciò di cui hai bisogno",
     feat1Title: "Guardaroba IA",
-    feat1Desc: "7 categorie, 39 sottocategorie. L'IA classifica e rigenera ogni capo automaticamente.",
+    feat1Desc: "6 categorie, 40 sottocategorie. L'IA classifica e rigenera ogni capo automaticamente.",
     feat2Title: "Pianificazione 7 giorni",
     feat2Desc: "Pianifica i tuoi outfit per la settimana. Notifica ogni sera con il look di domani.",
     feat3Title: "Modalità Coppia",
@@ -285,12 +285,12 @@ const translations = {
     monthly: "Mensile",
     annual: "Annuale",
     popular: "Popolare",
-    freePerk1: "2 capi per categoria",
+    freePerk1: "2 capi per categoria (14 in totale)",
     freePerk2: "Avatar IA realistico",
     freePerk3: "Pianificazione base",
     soloPerk1: "Vestiti illimitati",
     soloPerk2: "Look IA realistici",
-    soloPerk3: "Statistiche avanzate",
+    soloPerk3: "Statistiche avanzate", soloPerk4: "Viaggi",
     couplePerk1: "Tutto Solo × 2",
     couplePerk2: "Proposte di outfit",
     couplePerk3: "Guardaroba condiviso",
@@ -313,7 +313,7 @@ const translations = {
     step1Title: "Fotografa",
     step1Desc: "Tira fotos das tuas roupas. A IA transforma-as em imagens profissionais.",
     step2Title: "Organiza",
-    step2Desc: "O teu guarda-roupa virtual, organizado por categoria. 39 subcategorias inteligentes.",
+    step2Desc: "O teu guarda-roupa virtual, organizado por categoria. 40 subcategorias inteligentes.",
     step3Title: "Visualiza",
     step3Desc: "Vê-te nos teus looks. O teu avatar IA veste as tuas roupas.",
     avatarSection: "O teu Avatar IA",
@@ -323,7 +323,7 @@ const translations = {
     after: "Tu, vestido/a",
     featuresTitle: "Tudo o que precisas",
     feat1Title: "Guarda-roupa IA",
-    feat1Desc: "7 categorias, 39 subcategorias. A IA classifica e regenera cada peça automaticamente.",
+    feat1Desc: "6 categorias, 40 subcategorias. A IA classifica e regenera cada peça automaticamente.",
     feat2Title: "Planeamento 7 dias",
     feat2Desc: "Planeia os teus outfits para a semana. Notificação todas as noites com o look de amanhã.",
     feat3Title: "Modo Casal",
@@ -344,12 +344,12 @@ const translations = {
     monthly: "Mensal",
     annual: "Anual",
     popular: "Popular",
-    freePerk1: "2 peças por categoria",
+    freePerk1: "2 peças por categoria (14 no total)",
     freePerk2: "Avatar IA realista",
     freePerk3: "Planeamento básico",
     soloPerk1: "Roupas ilimitadas",
     soloPerk2: "Looks IA realistas",
-    soloPerk3: "Estatísticas avançadas",
+    soloPerk3: "Estatísticas avançadas", soloPerk4: "Viagens",
     couplePerk1: "Tudo Solo × 2",
     couplePerk2: "Propostas de outfits",
     couplePerk3: "Guarda-roupa partilhado",
@@ -372,7 +372,7 @@ const translations = {
     step1Title: "صوّر",
     step1Desc: "التقط صوراً لملابسك. الذكاء الاصطناعي يحوّلها إلى صور احترافية.",
     step2Title: "نظّم",
-    step2Desc: "خزانتك الافتراضية، مرتبة حسب الفئة. 39 فئة فرعية ذكية.",
+    step2Desc: "خزانتك الافتراضية، مرتبة حسب الفئة. 40 فئة فرعية ذكية.",
     step3Title: "تصوّر",
     step3Desc: "شاهد نفسك بإطلالاتك. أفاتارك بالذكاء الاصطناعي يرتدي ملابسك.",
     avatarSection: "أفاتارك بالذكاء الاصطناعي",
@@ -382,7 +382,7 @@ const translations = {
     after: "أنت، مرتدياً",
     featuresTitle: "كل ما تحتاجه",
     feat1Title: "خزانة ذكية",
-    feat1Desc: "7 فئات، 39 فئة فرعية. الذكاء الاصطناعي يصنّف ويجدّد كل قطعة تلقائياً.",
+    feat1Desc: "6 فئات، 40 فئة فرعية. الذكاء الاصطناعي يصنّف ويجدّد كل قطعة تلقائياً.",
     feat2Title: "تخطيط 7 أيام",
     feat2Desc: "خطط إطلالاتك للأسبوع. إشعار كل مساء بإطلالة الغد.",
     feat3Title: "وضع الثنائي",
@@ -403,12 +403,12 @@ const translations = {
     monthly: "شهري",
     annual: "سنوي",
     popular: "الأكثر شعبية",
-    freePerk1: "قطعتان لكل فئة",
+    freePerk1: "قطعتان لكل فئة (14 إجمالاً)",
     freePerk2: "أفاتار ذكاء اصطناعي واقعي",
     freePerk3: "تخطيط أساسي",
     soloPerk1: "ملابس غير محدودة",
     soloPerk2: "إطلالات ذكية واقعية",
-    soloPerk3: "إحصائيات متقدمة",
+    soloPerk3: "إحصائيات متقدمة", soloPerk4: "سفر",
     couplePerk1: "كل مزايا الفردي × 2",
     couplePerk2: "اقتراحات إطلالات",
     couplePerk3: "خزانة مشتركة",
@@ -431,7 +431,7 @@ const translations = {
     step1Title: "拍照",
     step1Desc: "拍下你的衣服。AI将它们转化为专业图片。",
     step2Title: "整理",
-    step2Desc: "你的虚拟衣橱，按类别整理。39个智能子类别。",
+    step2Desc: "你的虚拟衣橱，按类别整理。40个智能子类别。",
     step3Title: "预览",
     step3Desc: "看看你穿上的样子。你的AI分身穿着你的衣服。",
     avatarSection: "你的AI分身",
@@ -441,7 +441,7 @@ const translations = {
     after: "穿上后的你",
     featuresTitle: "你需要的一切",
     feat1Title: "AI衣橱",
-    feat1Desc: "7大类别，39个子类别。AI自动分类并重新生成每件衣物。",
+    feat1Desc: "6大类别，40个子类别。AI自动分类并重新生成每件衣物。",
     feat2Title: "7天计划",
     feat2Desc: "为一周规划你的穿搭。每晚收到明天造型的通知。",
     feat3Title: "情侣模式",
@@ -462,12 +462,12 @@ const translations = {
     monthly: "月付",
     annual: "年付",
     popular: "热门",
-    freePerk1: "每类别2件",
+    freePerk1: "每类别2件（共14件）",
     freePerk2: "逼真AI分身",
     freePerk3: "基础规划",
     soloPerk1: "无限衣物",
     soloPerk2: "逼真AI造型",
-    soloPerk3: "高级统计",
+    soloPerk3: "高级统计", soloPerk4: "旅行",
     couplePerk1: "个人版全部 × 2",
     couplePerk2: "穿搭推荐",
     couplePerk3: "共享衣橱",
@@ -490,7 +490,7 @@ const translations = {
     step1Title: "Сфотографируй",
     step1Desc: "Сфотографируй свою одежду. ИИ превращает её в профессиональные изображения.",
     step2Title: "Организуй",
-    step2Desc: "Твой виртуальный гардероб, организованный по категориям. 39 умных подкатегорий.",
+    step2Desc: "Твой виртуальный гардероб, организованный по категориям. 40 умных подкатегорий.",
     step3Title: "Визуализируй",
     step3Desc: "Посмотри на себя в своих образах. Твой ИИ-аватар носит твою одежду.",
     avatarSection: "Твой ИИ-аватар",
@@ -500,7 +500,7 @@ const translations = {
     after: "Ты, одетый(ая)",
     featuresTitle: "Всё, что тебе нужно",
     feat1Title: "ИИ-гардероб",
-    feat1Desc: "7 категорий, 39 подкатегорий. ИИ классифицирует и обновляет каждую вещь автоматически.",
+    feat1Desc: "6 категорий, 40 подкатегорий. ИИ классифицирует и обновляет каждую вещь автоматически.",
     feat2Title: "Планирование на 7 дней",
     feat2Desc: "Планируй свои образы на неделю. Уведомление каждый вечер с образом на завтра.",
     feat3Title: "Режим пары",
@@ -521,12 +521,12 @@ const translations = {
     monthly: "Ежемесячно",
     annual: "Ежегодно",
     popular: "Популярный",
-    freePerk1: "2 вещи на категорию",
+    freePerk1: "2 вещи на категорию (14 всего)",
     freePerk2: "Реалистичный ИИ-аватар",
     freePerk3: "Базовое планирование",
     soloPerk1: "Безлимитная одежда",
     soloPerk2: "Реалистичные ИИ-образы",
-    soloPerk3: "Продвинутая статистика",
+    soloPerk3: "Продвинутая статистика", soloPerk4: "Путешествия",
     couplePerk1: "Всё из Соло × 2",
     couplePerk2: "Предложения образов",
     couplePerk3: "Общий гардероб",
@@ -655,8 +655,12 @@ export default function BISK8Landing() {
     period: isAnnual ? t.year : t.month,
   };
 
+  const [showToast, setShowToast] = useState(false);
+  const handleComingSoon = (e) => { e.preventDefault(); setShowToast(true); setTimeout(() => setShowToast(false), 2500); };
+
   return (
     <div style={{ fontFamily: "'HighCruiser', sans-serif", background: "#000", color: "#fff", overflowX: "hidden" }}>
+      {showToast && <div style={{ position: "fixed", bottom: 40, left: "50%", transform: "translateX(-50%)", background: "#222", color: "#fff", padding: "12px 28px", borderRadius: 12, fontSize: 14, fontWeight: 600, zIndex: 9999, animation: "fadeIn 0.3s ease", fontFamily: "'HighCruiser', sans-serif", letterSpacing: 1 }}>Bientôt disponible ✨</div>}
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
@@ -677,6 +681,7 @@ export default function BISK8Landing() {
         .reveal-right.visible { opacity: 1; transform: translateX(0); }
         .badge-btn { display: inline-block; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .badge-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255,255,255,0.1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
         .feature-card { transition: transform 0.4s ease, box-shadow 0.4s ease; }
         .feature-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
         .price-card { transition: transform 0.4s ease, box-shadow 0.4s ease; }
@@ -727,11 +732,11 @@ export default function BISK8Landing() {
               <p style={{ fontSize: 18, color: "#999", lineHeight: 1.6, maxWidth: 440, fontWeight: 300 }}>{t.subtitle}</p>
             </div>
             <div className={`reveal ${heroVisible ? "visible" : ""}`} style={{ display: "flex", gap: 12, flexWrap: "wrap", transitionDelay: "0.3s" }} id="download">
-              <a href="#" className="badge-btn" style={{ background: "#fff", color: "#000", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, animation: "pulse 3s ease infinite" }}>
+              <a href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#fff", color: "#000", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, animation: "pulse 3s ease infinite" }}>
                 <svg width="20" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
                 <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>Download on the</div><div style={{ fontSize: 15, fontWeight: 700 }}>App Store</div></div>
               </a>
-              <a href="#" className="badge-btn" style={{ background: "transparent", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, border: "1px solid rgba(255,255,255,0.2)" }}>
+              <a href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "transparent", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, border: "1px solid rgba(255,255,255,0.2)" }}>
                 <svg width="20" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.5 12.92 20.16 13.19L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/></svg>
                 <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>GET IT ON</div><div style={{ fontSize: 15, fontWeight: 700 }}>Google Play</div></div>
               </a>
@@ -812,15 +817,15 @@ export default function BISK8Landing() {
           <h2 className={`reveal ${featVisible ? "visible" : ""}`} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, textAlign: "center", marginBottom: 64, letterSpacing: 2 }}>{t.featuresTitle}</h2>
           <div className="features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
             {[
-              { icon: "👕", title: t.feat1Title, desc: t.feat1Desc },
-              { icon: "📅", title: t.feat2Title, desc: t.feat2Desc },
-              { icon: "💕", title: t.feat3Title, desc: t.feat3Desc },
-              { icon: "👨‍👩‍👧", title: t.feat4Title, desc: t.feat4Desc },
-              { icon: "✈️", title: t.feat5Title, desc: t.feat5Desc },
-              { icon: "♻️", title: t.feat6Title, desc: t.feat6Desc },
+              { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C10.34 2 9 3.34 9 5c0 1.31.83 2.42 2 2.83V9"/><path d="M12 9L3 16h18L12 9Z"/></svg>', title: t.feat1Title, desc: t.feat1Desc },
+              { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><text x="12" y="17" textAnchor="middle" fill="#222" stroke="none" fontSize="8" fontWeight="700">7</text></svg>', title: t.feat2Title, desc: t.feat2Desc },
+              { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>', title: t.feat3Title, desc: t.feat3Desc },
+              { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="7" r="2.5"/><circle cx="17" cy="7" r="2.5"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><path d="M17 11.5a3 3 0 013 3V21"/></svg>', title: t.feat4Title, desc: t.feat4Desc },
+              { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>', title: t.feat5Title, desc: t.feat5Desc },
+              { icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>', title: t.feat6Title, desc: t.feat6Desc },
             ].map((f, i) => (
               <div key={i} className={`feature-card reveal ${featVisible ? "visible" : ""}`} style={{ background: "#fafafa", borderRadius: 20, padding: 32, border: "1px solid #eee", cursor: "default", transitionDelay: `${i * 0.1}s` }}>
-                <div style={{ fontSize: 36, marginBottom: 16 }}>{f.icon}</div>
+                <div style={{ marginBottom: 16 }} dangerouslySetInnerHTML={{ __html: f.icon }} />
                 <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>{f.title}</h3>
                 <p style={{ fontSize: 14, color: "#666", lineHeight: 1.6 }}>{f.desc}</p>
               </div>
@@ -843,7 +848,7 @@ export default function BISK8Landing() {
           <div className="pricing-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
             {[
               { name: t.free, price: "0 CHF", period: "", perks: [t.freePerk1, t.freePerk2, t.freePerk3], highlight: false },
-              { name: t.solo, price: prices.solo, period: prices.period, perks: [t.soloPerk1, t.soloPerk2, t.soloPerk3], highlight: true, discount: isAnnual },
+              { name: t.solo, price: prices.solo, period: prices.period, perks: [t.soloPerk1, t.soloPerk2, t.soloPerk3, t.soloPerk4], highlight: true, discount: isAnnual },
               { name: t.couple, price: prices.couple, period: prices.period, perks: [t.couplePerk1, t.couplePerk2, t.couplePerk3], highlight: false, discount: isAnnual },
               { name: t.famille, price: prices.famille, period: prices.period, perks: [t.famillePerk1, t.famillePerk2, t.famillePerk3], highlight: false, discount: isAnnual },
             ].map((plan, i) => (
@@ -872,18 +877,18 @@ export default function BISK8Landing() {
           <h2 className={`reveal ${ctaVisible ? "visible" : ""}`} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 900, marginBottom: 16, letterSpacing: 2 }}>{t.ctaTitle}</h2>
           <p className={`reveal ${ctaVisible ? "visible" : ""}`} style={{ fontSize: 18, color: "#666", marginBottom: 40, transitionDelay: "0.2s" }}>{t.ctaSubtitle.split("BISK8").map((part, i, arr) => <span key={i}>{part}{i < arr.length - 1 && <img src={BLACK_LOGO} alt="BISK8" style={{ height: 23, verticalAlign: "middle", display: "inline", margin: "0 4px", opacity: 0.65 }} />}</span>)}</p>
           <div className={`reveal ${ctaVisible ? "visible" : ""}`} style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", transitionDelay: "0.4s" }}>
-            <a href="#" className="badge-btn" style={{ background: "#000", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
+            <a href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#000", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
               <svg width="20" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
               <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>Download on the</div><div style={{ fontSize: 15, fontWeight: 700 }}>App Store</div></div>
             </a>
-            <a href="#" className="badge-btn" style={{ background: "#000", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
+            <a href="#" onClick={handleComingSoon} className="badge-btn" style={{ background: "#000", color: "#fff", padding: "14px 28px", borderRadius: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
               <svg width="20" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.5 12.92 20.16 13.19L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/></svg>
               <div><div style={{ fontSize: 10, fontWeight: 400, opacity: 0.65 }}>GET IT ON</div><div style={{ fontSize: 15, fontWeight: 700 }}>Google Play</div></div>
             </a>
           </div>
           <div style={{ marginTop: 32, display: "flex", justifyContent: "center", gap: 20 }}>
-            <a href="https://instagram.com/bisk8" target="_blank" rel="noopener" style={{ color: "#bbb", textDecoration: "none", fontSize: 13, fontWeight: 500 }}>Instagram</a>
-            <a href="https://tiktok.com/@bisk8" target="_blank" rel="noopener" style={{ color: "#bbb", textDecoration: "none", fontSize: 13, fontWeight: 500 }}>TikTok</a>
+            <a href="https://instagram.com/bisk8.co" target="_blank" rel="noopener" style={{ color: "#bbb", textDecoration: "none", fontSize: 13, fontWeight: 500 }}>Instagram</a>
+            <a href="https://tiktok.com/@bisk8.co" target="_blank" rel="noopener" style={{ color: "#bbb", textDecoration: "none", fontSize: 13, fontWeight: 500 }}>TikTok</a>
           </div>
         </div>
       </section>
@@ -893,7 +898,7 @@ export default function BISK8Landing() {
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <img src={WHITE_LOGO} alt="BISK8" style={{ height: 22 }} />
           <div style={{ display: "flex", gap: 24 }}>
-            <a href="/terms" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerTerms}</a>
+            <a href="/cgu" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerTerms}</a>
             <a href="/privacy" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerPrivacy}</a>
             <a href="mailto:contact@bisk8.co" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerContact}</a>
           </div>
