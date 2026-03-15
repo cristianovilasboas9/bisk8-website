@@ -9,7 +9,7 @@ const FONT_FACE_CSS = `@font-face { font-family: "HighCruiser"; src: url("/fonts
 
 const STEP1_IMG = "/images/step1.jpg";
 const STEP2_IMG = "/images/step2.jpg";
-const STEP3_IMG = "/Section2_3.PNG";
+const STEP3_IMG = "/images/Section2_3.PNG";
 
 const translations = {
   fr: {
@@ -970,7 +970,7 @@ export default function BISK8Landing() {
             ].map((step, i) => (
               <motion.div key={i} variants={fadeUp} custom={i} initial="hidden" whileInView="visible" viewport={vp} style={{ flex: 1, textAlign: "center", maxWidth: 300 }}>
                 <div style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 72, fontWeight: 900, color: "rgba(0,0,0,0.06)", marginBottom: -24, position: "relative", zIndex: 0, letterSpacing: 4 }}><CountUp target={parseInt(step.num)} delay={i * 0.25} /></div>
-                <div style={{ width: 220, height: 440, margin: "0 auto", borderRadius: 28, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.12)", border: "3px solid #e8e8e8" }}>
+                <div className="step-img-container" style={{ width: 220, height: 440, margin: "0 auto", borderRadius: 28, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.12)", border: "3px solid #e8e8e8", background: "#f0f0f0" }}>
                   <img src={step.img} alt={step.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                 </div>
                 <h3 style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 24, fontWeight: 900, marginBottom: 10, marginTop: 24, letterSpacing: 1.5 }}>{step.title}</h3>
@@ -995,15 +995,15 @@ export default function BISK8Landing() {
             </div>
             <motion.div className="avatar-comparison" initial={{ opacity: 0, x: 60, filter: "blur(8px)" }} whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }} transition={{ duration: 1.0, delay: 0.2, ease: EASE }} viewport={{ once: false, amount: 0.3 }} style={{ flex: 1, display: "flex", gap: 20, justifyContent: "center" }}>
               <div style={{ textAlign: "center" }}>
-                <div className="glow-border" style={{ width: 180, height: 240, borderRadius: 20, overflow: "hidden", marginBottom: 12 }}>
-                  <img src="/section3_1.png" alt="Before" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 95%" }} />
+                <div className="glow-border" style={{ width: 180, height: 240, borderRadius: 20, overflow: "hidden", marginBottom: 12, background: "#f0f0f0" }}>
+                  <img src="/images/section3_1.png" alt="Before" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 95%" }} />
                 </div>
                 <div style={{ fontSize: 12, color: "#666", fontWeight: 500 }}>{t.before}</div>
               </div>
               <div style={{ display: "flex", alignItems: "center", fontSize: 24, color: "#444" }}>→</div>
               <div style={{ textAlign: "center" }}>
-                <div className="glow-border" style={{ width: 180, height: 240, borderRadius: 20, overflow: "hidden", marginBottom: 12 }}>
-                  <img src="/section3_2.png" alt="After" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <div className="glow-border" style={{ width: 180, height: 240, borderRadius: 20, overflow: "hidden", marginBottom: 12, background: "#f0f0f0" }}>
+                  <img src="/images/section3_2.png" alt="After" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
                 <div style={{ fontSize: 12, color: "#999", fontWeight: 600 }}>{t.after}</div>
               </div>
@@ -1075,7 +1075,7 @@ export default function BISK8Landing() {
       </section>
 
       {/* CTA FINAL — WHITE + GLOW */}
-      <section id="download-bottom" className="cta-glow" style={{ padding: "80px 32px", background: "#fff", color: "#000", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "70vh", position: "relative", overflow: "hidden" }}>
+      <section id="download-bottom" className="cta-glow" style={{ padding: "100px 32px", background: "#fff", color: "#000", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "auto", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 50%, rgba(200,200,200,0.3) 0%, transparent 60%)", animation: "ctaGlow 4s ease-in-out infinite" }} />
         <div style={{ maxWidth: 600, margin: "0 auto", position: "relative" }}>
           <motion.h2 variants={scaleBurst} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 900, marginBottom: 16, letterSpacing: 2 }}>{t.ctaTitle}</motion.h2>
