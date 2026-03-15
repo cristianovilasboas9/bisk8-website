@@ -598,9 +598,10 @@ function ScatterText({ text }) {
 }
 
 // Blur-to-sharp for any children (subtitle, paragraphs)
-function BlurReveal({ children, delay = 0, style }) {
+function BlurReveal({ children, delay = 0, style, className }) {
   return (
     <motion.div
+      className={className}
       initial={{ opacity: 0, filter: "blur(12px)", y: 20 }}
       animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
       transition={{ duration: 1.0, delay, ease: EASE }}
@@ -696,13 +697,15 @@ function CountUp({ target, delay = 0 }) {
 function ScrollSection({ children, style, className, id }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "start 20%"] });
-  const opacity = useTransform(scrollYProgress, [0, 0.6, 1], [0, 0.6, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6, 1], [0.01, 0.6, 1]);
   const y = useTransform(scrollYProgress, [0, 1], [80, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [0.96, 1]);
   return (
-    <motion.section ref={ref} id={id} className={className} style={{ ...style, opacity, y, scale }}>
-      {children}
-    </motion.section>
+    <section ref={ref} id={id} className={className} style={{ ...style }}>
+      <motion.div style={{ opacity, y, scale, width: "100%" }}>
+        {children}
+      </motion.div>
+    </section>
   );
 }
 
@@ -860,7 +863,8 @@ export default function BISK8Landing() {
         .price-card { transition: transform 0.4s ease, box-shadow 0.4s ease; }
         .price-card:hover { transform: translateY(-12px); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
         .nav-glass { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        html, body { overflow-x: hidden; width: 100%; overflow-y: auto !important; height: auto !important; }
+        html { overflow-x: hidden; overflow-y: scroll !important; width: 100%; height: auto !important; }
+        body { overflow-x: hidden; overflow-y: auto !important; width: 100%; height: auto !important; min-height: 100vh; }
         section { overflow-x: hidden; overflow-y: visible; -webkit-transform: translateZ(0); transform: translateZ(0); }
         .hero-phone { will-change: transform; }
         .nav-glass { will-change: transform; }
@@ -873,6 +877,7 @@ export default function BISK8Landing() {
           .hero-text { order: 1; }
           .hero-phone { order: 2; margin-top: 40px !important; }
           .hero-buttons { order: 3; margin-top: 24px !important; justify-content: center !important; }
+          .hero-subtitle { max-width: 80% !important; margin-left: auto !important; margin-right: auto !important; text-align: center !important; }
           .pricing-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .features-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
@@ -881,6 +886,7 @@ export default function BISK8Landing() {
           .avatar-comparison { gap: 12px !important; justify-content: center !important; }
           .avatar-comparison > div > div:first-child { width: 140px !important; height: 186px !important; }
           .steps-grid { flex-direction: column !important; align-items: center !important; }
+          .hero-subtitle { max-width: 90% !important; margin-left: auto !important; margin-right: auto !important; text-align: center !important; }
         }
         @media (max-width: 580px) {
           .features-grid { grid-template-columns: 1fr !important; }
@@ -924,7 +930,7 @@ export default function BISK8Landing() {
               <h1 className="hero-title" style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: "clamp(32px, 5vw, 64px)", fontWeight: 900, lineHeight: 1.2, letterSpacing: 2, marginBottom: 24, paddingTop: 4, background: "linear-gradient(135deg, #fff 0%, #ccc 50%, #fff 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "gradientShift 6s ease infinite", wordBreak: "keep-all", overflowWrap: "break-word" }}>
                 <ScatterText text={t.tagline} />
               </h1>
-              <BlurReveal delay={0.8} style={{ fontSize: 18, color: "#999", lineHeight: 1.6, maxWidth: 440, fontWeight: 300 }}>{t.subtitle}</BlurReveal>
+              <BlurReveal delay={0.8} style={{ fontSize: 18, color: "#999", lineHeight: 1.6, maxWidth: 440, fontWeight: 300 }} className="hero-subtitle">{t.subtitle}</BlurReveal>
             </motion.div>
           </div>
           <motion.div className="hero-buttons" initial="hidden" animate="visible" id="download">
