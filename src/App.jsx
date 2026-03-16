@@ -69,6 +69,7 @@ const translations = {
     footerPrivacy: "Politique de confidentialité",
     footerContact: "Contact",
     footerRights: "© 2026 BISK8 — Barcelos, Portugal. Tous droits réservés.",
+    comingSoon: "Bientôt disponible ✨",
     langLabel: "FR",
   },
   en: {
@@ -128,6 +129,7 @@ const translations = {
     footerPrivacy: "Privacy Policy",
     footerContact: "Contact",
     footerRights: "© 2026 BISK8 — Barcelos, Portugal. All rights reserved.",
+    comingSoon: "Coming soon ✨",
     langLabel: "EN",
   },
   de: {
@@ -187,6 +189,7 @@ const translations = {
     footerPrivacy: "Datenschutz",
     footerContact: "Kontakt",
     footerRights: "© 2026 BISK8 — Barcelos, Portugal. Alle Rechte vorbehalten.",
+    comingSoon: "Bald verfügbar ✨",
     langLabel: "DE",
   },
   es: {
@@ -246,6 +249,7 @@ const translations = {
     footerPrivacy: "Política de privacidad",
     footerContact: "Contacto",
     footerRights: "© 2026 BISK8 — Barcelos, Portugal. Todos los derechos reservados.",
+    comingSoon: "Próximamente ✨",
     langLabel: "ES",
   },
   it: {
@@ -305,6 +309,7 @@ const translations = {
     footerPrivacy: "Privacy",
     footerContact: "Contatto",
     footerRights: "© 2026 BISK8 — Barcelos, Portogallo. Tutti i diritti riservati.",
+    comingSoon: "Prossimamente ✨",
     langLabel: "IT",
   },
   pt: {
@@ -364,6 +369,7 @@ const translations = {
     footerPrivacy: "Política de privacidade",
     footerContact: "Contacto",
     footerRights: "© 2026 BISK8 — Barcelos, Portugal. Todos os direitos reservados.",
+    comingSoon: "Em breve ✨",
     langLabel: "PT",
   },
   ar: {
@@ -423,6 +429,7 @@ const translations = {
     footerPrivacy: "سياسة الخصوصية",
     footerContact: "اتصل بنا",
     footerRights: "© 2026 BISK8 — بارسيلوس، البرتغال. جميع الحقوق محفوظة.",
+    comingSoon: "قريبًا ✨",
     langLabel: "AR",
   },
   zh: {
@@ -482,6 +489,7 @@ const translations = {
     footerPrivacy: "隐私政策",
     footerContact: "联系我们",
     footerRights: "© 2026 BISK8 — 巴塞洛斯，葡萄牙。保留所有权利。",
+    comingSoon: "即将推出 ✨",
     langLabel: "ZH",
   },
   ru: {
@@ -541,6 +549,7 @@ const translations = {
     footerPrivacy: "Конфиденциальность",
     footerContact: "Контакт",
     footerRights: "© 2026 BISK8 — Барселуш, Португалия. Все права защищены.",
+    comingSoon: "Скоро ✨",
     langLabel: "RU",
   },
 };
@@ -835,7 +844,7 @@ export default function BISK8Landing() {
 
   return (
     <div style={{ fontFamily: "'HighCruiser', sans-serif", background: "#000", color: "#fff", overflowX: "hidden" }}>
-      {showToast && <div style={{ position: "fixed", bottom: 40, left: "50%", transform: "translateX(-50%)", background: "#222", color: "#fff", padding: "12px 28px", borderRadius: 12, fontSize: 14, fontWeight: 600, zIndex: 9999, animation: "fadeIn 0.3s ease", fontFamily: "'HighCruiser', sans-serif", letterSpacing: 1 }}>Bientôt disponible ✨</div>}
+      {showToast && <div style={{ position: "fixed", bottom: 40, left: "50%", transform: "translateX(-50%)", background: "#222", color: "#fff", padding: "12px 28px", borderRadius: 12, fontSize: 14, fontWeight: 600, zIndex: 9999, animation: "fadeIn 0.3s ease", fontFamily: "'HighCruiser', sans-serif", letterSpacing: 1 }}}>{t.comingSoon}</div>}
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
