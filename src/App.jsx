@@ -65,7 +65,7 @@ const translations = {
     famillePerk3: "Planning famille",
     ctaTitle: "Prêt à révolutionner ton style ?",
     ctaSubtitle: "Rejoins les premiers à découvrir BISK8.",
-    footerTerms: "CGU",
+    footerTerms: "Terms",
     footerPrivacy: "Politique de confidentialité",
     footerContact: "Contact",
     footerRights: "© 2026 BISK8 — Barcelos, Portugal. Tous droits réservés.",
