@@ -844,7 +844,7 @@ export default function BISK8Landing() {
 
   return (
     <div style={{ fontFamily: "'HighCruiser', sans-serif", background: "#000", color: "#fff", overflowX: "hidden" }}>
-      {showToast && <div style={{ position: "fixed", bottom: 40, left: "50%", transform: "translateX(-50%)", background: "#222", color: "#fff", padding: "12px 28px", borderRadius: 12, fontSize: 14, fontWeight: 600, zIndex: 9999, animation: "fadeIn 0.3s ease", fontFamily: "'HighCruiser', sans-serif", letterSpacing: 1 }}}>{t.comingSoon}</div>}
+      {showToast && <div style={{ position: "fixed", bottom: 40, left: "50%", transform: "translateX(-50%)", background: "#222", color: "#fff", padding: "12px 28px", borderRadius: 12, fontSize: 14, fontWeight: 600, zIndex: 9999, animation: "fadeIn 0.3s ease", fontFamily: "'HighCruiser', sans-serif", letterSpacing: 1 }}>{t.comingSoon}</div>}
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
