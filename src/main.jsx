@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Suspense fallback={<div style={{ background: "#000", minHeight: "100vh" }} />}>
           <Routes>
             <Route path="/" element={<BISK8Landing />} />
-            <Route path="/cgu" element={<CGUPage />} />
+            <Route path="/terms" element={<CGUPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Routes>

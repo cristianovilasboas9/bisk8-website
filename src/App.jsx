@@ -1099,7 +1099,7 @@ export default function BISK8Landing() {
           <motion.div className="footer-top" variants={fadeUp} custom={0} initial="hidden" whileInView="visible" viewport={vp} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
             <img src={WHITE_LOGO} alt="BISK8" style={{ height: 22 }} />
             <div className="footer-links" style={{ display: "flex", gap: 24 }}>
-              <a href="/cgu" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerTerms}</a>
+              <a href="/terms" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerTerms}</a>
               <a href="/privacy" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerPrivacy}</a>
               <a href="/contact" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>{t.footerContact}</a>
             </div>

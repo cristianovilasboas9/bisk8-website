@@ -84,7 +84,7 @@ export default function CGUPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <img src={WHITE_LOGO} alt="BISK8" style={{ height: 22 }} />
           <div style={{ display: "flex", gap: 24 }}>
-            <a href="/cgu" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>CGU</a>
+            <a href="/terms" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>CGU</a>
             <a href="/privacy" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>Privacy</a>
             <a href="/contact" style={{ color: "#666", textDecoration: "none", fontSize: 13 }}>Contact</a>
           </div>
