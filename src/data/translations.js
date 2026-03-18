@@ -68,6 +68,7 @@ export const translations = {
     footerPrivacy: "Politique de confidentialité",
     footerContact: "Contact",
     footerRights: "© 2026 BISK8 — Barcelos, Portugal. Tous droits réservés.",
+    footerAllRights: "Tous droits réservés.",
     comingSoon: "Bientôt disponible ✨",
     langLabel: "FR",
     dualPhone: {
@@ -145,6 +146,7 @@ export const translations = {
     footerPrivacy: "Privacy Policy",
     footerContact: "Contact",
     footerRights: "© 2026 BISK8 — Barcelos, Portugal. All rights reserved.",
+    footerAllRights: "All rights reserved.",
     comingSoon: "Coming soon ✨",
     langLabel: "EN",
     dualPhone: {
@@ -222,6 +224,7 @@ export const translations = {
     footerPrivacy: "Datenschutz",
     footerContact: "Kontakt",
     footerRights: "© 2026 BISK8 — Barcelos, Portugal. Alle Rechte vorbehalten.",
+    footerAllRights: "Alle Rechte vorbehalten.",
     comingSoon: "Bald verfügbar ✨",
     langLabel: "DE",
     dualPhone: {
@@ -299,6 +302,7 @@ export const translations = {
     footerPrivacy: "Política de privacidad",
     footerContact: "Contacto",
     footerRights: "© 2026 BISK8 — Barcelos, Portugal. Todos los derechos reservados.",
+    footerAllRights: "Todos los derechos reservados.",
     comingSoon: "Próximamente ✨",
     langLabel: "ES",
     dualPhone: {
@@ -376,6 +380,7 @@ export const translations = {
     footerPrivacy: "Privacy",
     footerContact: "Contatto",
     footerRights: "© 2026 BISK8 — Barcelos, Portogallo. Tutti i diritti riservati.",
+    footerAllRights: "Tutti i diritti riservati.",
     comingSoon: "Prossimamente ✨",
     langLabel: "IT",
     dualPhone: {
@@ -453,6 +458,7 @@ export const translations = {
     footerPrivacy: "Política de privacidade",
     footerContact: "Contacto",
     footerRights: "© 2026 BISK8 — Barcelos, Portugal. Todos os direitos reservados.",
+    footerAllRights: "Todos os direitos reservados.",
     comingSoon: "Em breve ✨",
     langLabel: "PT",
     dualPhone: {
@@ -530,6 +536,7 @@ export const translations = {
     footerPrivacy: "سياسة الخصوصية",
     footerContact: "اتصل بنا",
     footerRights: "© 2026 BISK8 — بارسيلوس، البرتغال. جميع الحقوق محفوظة.",
+    footerAllRights: "جميع الحقوق محفوظة.",
     comingSoon: "قريبًا ✨",
     langLabel: "AR",
     dualPhone: {
@@ -607,6 +614,7 @@ export const translations = {
     footerPrivacy: "隐私政策",
     footerContact: "联系我们",
     footerRights: "© 2026 BISK8 — 巴塞洛斯，葡萄牙。保留所有权利。",
+    footerAllRights: "保留所有权利。",
     comingSoon: "即将推出 ✨",
     langLabel: "ZH",
     dualPhone: {
@@ -684,6 +692,7 @@ export const translations = {
     footerPrivacy: "Конфиденциальность",
     footerContact: "Контакт",
     footerRights: "© 2026 BISK8 — Барселуш, Португалия. Все права защищены.",
+    footerAllRights: "Все права защищены.",
     comingSoon: "Скоро ✨",
     langLabel: "RU",
     dualPhone: {
