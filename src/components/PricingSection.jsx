@@ -253,7 +253,10 @@ export default function PricingSection({ isAnnual, setIsAnnual, prices, handleCo
                 {!isMobile && (
                   <a
                     href="#download-bottom"
-                    onClick={handleComingSoon}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('download-bottom')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
                     style={{
                       display: "block",
                       textAlign: "center",
