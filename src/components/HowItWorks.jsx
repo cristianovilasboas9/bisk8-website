@@ -1,19 +1,156 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useLanguage } from "../LanguageContext.jsx";
 import { translations, STEP1_IMG, STEP2_IMG, STEP3_IMG, STEP1_MOBILE, STEP2_MOBILE, STEP3_MOBILE } from "../data/translations.js";
 import useIsMobile from "../hooks/useIsMobile.js";
 
-export default function HowItWorks() {
+// ========== MOBILE: Simple fade-in, NO sticky, ZERO vibration ==========
+
+function MobileFadeIn({ children, delay = 0 }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-50px' });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function HowItWorksMobile() {
+  const { lang } = useLanguage();
+  const t = translations[lang] || translations.fr;
+
+  const steps = [
+    { num: "01", title: t.step1Title, desc: t.step1Desc, img: STEP1_MOBILE },
+    { num: "02", title: t.step2Title, desc: t.step2Desc, img: STEP2_MOBILE },
+    { num: "03", title: t.step3Title, desc: t.step3Desc, img: STEP3_MOBILE },
+  ];
+
+  return (
+    <section
+      style={{
+        padding: '3rem 1.5rem 4rem',
+        background: '#FFFFFF',
+      }}
+    >
+      <MobileFadeIn>
+        <h2
+          style={{
+            fontFamily: "'HighCruiser', sans-serif",
+            fontSize: '1.8rem',
+            fontWeight: 900,
+            textAlign: 'center',
+            color: '#000',
+            marginBottom: '2.5rem',
+            letterSpacing: 2,
+          }}
+        >
+          {t.howItWorks}
+        </h2>
+      </MobileFadeIn>
+
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '3rem',
+          alignItems: 'center',
+        }}
+      >
+        {steps.map((step, i) => (
+          <MobileFadeIn key={i} delay={0}>
+            <div style={{ textAlign: 'center', width: '100%', maxWidth: '300px' }}>
+              {/* Ghost number */}
+              <div
+                style={{
+                  fontSize: '3.5rem',
+                  fontWeight: 900,
+                  color: 'rgba(0,0,0,0.04)',
+                  fontFamily: "'HighCruiser', sans-serif",
+                  lineHeight: 1,
+                  marginBottom: '-0.5rem',
+                }}
+              >
+                {step.num}
+              </div>
+
+              {/* Step image */}
+              <div
+                style={{
+                  width: '80%',
+                  maxWidth: '260px',
+                  margin: '0 auto',
+                  borderRadius: 20,
+                  border: '2px solid rgba(0,0,0,0.06)',
+                  overflow: 'hidden',
+                  background: '#F5F5F5',
+                  aspectRatio: '9/16',
+                  marginBottom: '1.25rem',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+                }}
+              >
+                <img
+                  src={step.img}
+                  alt={step.title}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                    objectPosition: 'center',
+                    display: 'block',
+                  }}
+                />
+              </div>
+
+              {/* Step title */}
+              <h3
+                style={{
+                  fontFamily: "'HighCruiser', sans-serif",
+                  fontSize: '1.1rem',
+                  fontWeight: 900,
+                  marginBottom: 8,
+                  letterSpacing: 1.5,
+                  color: '#000',
+                }}
+              >
+                {step.title}
+              </h3>
+
+              {/* Step description */}
+              <p
+                style={{
+                  fontFamily: "'HighCruiser', sans-serif",
+                  fontSize: 13,
+                  color: '#666',
+                  lineHeight: 1.6,
+                  maxWidth: 280,
+                  margin: '0 auto',
+                }}
+              >
+                {step.desc}
+              </p>
+            </div>
+          </MobileFadeIn>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ========== DESKTOP: Sticky scroll, 300vh, useScroll — UNCHANGED ==========
+
+function HowItWorksDesktop() {
   const { lang } = useLanguage();
   const t = translations[lang] || translations.fr;
   const sectionRef = useRef(null);
-  const isMobile = useIsMobile();
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
 
   const steps = [
     { num: "01", title: t.step1Title, desc: t.step1Desc, img: STEP1_IMG, mobileImg: STEP1_MOBILE },
@@ -21,30 +158,21 @@ export default function HowItWorks() {
     { num: "03", title: t.step3Title, desc: t.step3Desc, img: STEP3_IMG, mobileImg: STEP3_MOBILE },
   ];
 
-  // Title
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
   const titleOpacity = useTransform(scrollYProgress, [0, 0.06, 0.08], [0, 0, 1]);
   const titleY = useTransform(scrollYProgress, [0, 0.06, 0.12], [40, 40, 0]);
 
-  // Desktop card animations (appear and stay)
-  const card1Opacity = useTransform(scrollYProgress,
-    isMobile ? [0.03, 0.08, 0.3, 0.33] : [0.08, 0.14],
-    isMobile ? [0, 1, 1, 0] : [0, 1]
-  );
+  const card1Opacity = useTransform(scrollYProgress, [0.08, 0.14], [0, 1]);
   const card1Y = useTransform(scrollYProgress, [0.08, 0.18], [60, 0]);
-
-  const card2Opacity = useTransform(scrollYProgress,
-    isMobile ? [0.31, 0.36, 0.58, 0.62] : [0.25, 0.32],
-    isMobile ? [0, 1, 1, 0] : [0, 1]
-  );
+  const card2Opacity = useTransform(scrollYProgress, [0.25, 0.32], [0, 1]);
   const card2Y = useTransform(scrollYProgress, [0.25, 0.38], [60, 0]);
-
-  const card3Opacity = useTransform(scrollYProgress,
-    isMobile ? [0.6, 0.65, 0.88, 0.93] : [0.42, 0.48],
-    isMobile ? [0, 1, 1, 0] : [0, 1]
-  );
+  const card3Opacity = useTransform(scrollYProgress, [0.42, 0.48], [0, 1]);
   const card3Y = useTransform(scrollYProgress, [0.42, 0.55], [60, 0]);
 
-  // Connection line grows across cards (desktop only)
   const lineScaleX = useTransform(scrollYProgress, [0.10, 0.55], [0, 1]);
 
   const cardAnimations = [
@@ -53,139 +181,6 @@ export default function HowItWorks() {
     { opacity: card3Opacity, y: card3Y },
   ];
 
-  if (isMobile) {
-    return (
-      <section
-        ref={sectionRef}
-        style={{
-          height: "400vh",
-          position: "relative",
-          transform: 'translate3d(0, 0, 0)',
-          WebkitOverflowScrolling: 'touch',
-        }}
-      >
-        <div
-          style={{
-            position: "sticky",
-            top: 0,
-            height: "100vh",
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            background: "#FFFFFF",
-            overflow: "hidden",
-            padding: "1rem",
-            paddingTop: "80px",
-            transform: 'translate3d(0, 0, 0)',
-            WebkitTransform: 'translate3d(0, 0, 0)',
-            willChange: 'transform',
-            WebkitBackfaceVisibility: 'hidden',
-            backfaceVisibility: 'hidden',
-            WebkitPerspective: 1000,
-            perspective: 1000,
-          }}
-        >
-          {/* Title */}
-          <motion.h2
-            style={{
-              opacity: titleOpacity,
-              y: titleY,
-              fontFamily: "'HighCruiser', sans-serif",
-              fontSize: "1.8rem",
-              fontWeight: 900,
-              textAlign: "center",
-              color: "#000",
-              marginBottom: "1.5rem",
-              letterSpacing: 2,
-              flexShrink: 0,
-            }}
-          >
-            {t.howItWorks}
-          </motion.h2>
-
-          {/* Card display area — one card at a time */}
-          <div style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            position: "relative",
-          }}>
-            {steps.map((step, i) => (
-              <motion.div
-                key={i}
-                style={{
-                  opacity: cardAnimations[i].opacity,
-                  position: "absolute",
-                  width: "85%",
-                  maxWidth: "320px",
-                  textAlign: "center",
-                  willChange: "opacity, transform",
-                  WebkitBackfaceVisibility: "hidden",
-                  backfaceVisibility: "hidden",
-                }}
-              >
-                <div style={{
-                  fontSize: "3rem",
-                  fontWeight: 900,
-                  color: "rgba(0,0,0,0.04)",
-                  fontFamily: "'HighCruiser', sans-serif",
-                  lineHeight: 1,
-                  marginBottom: "-0.5rem",
-                }}>
-                  {step.num}
-                </div>
-                <div style={{
-                  width: "75%",
-                  maxWidth: "240px",
-                  margin: "0 auto",
-                  borderRadius: 16,
-                  border: "2px solid rgba(0,0,0,0.06)",
-                  overflow: "hidden",
-                  marginBottom: "1rem",
-                  boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-                  aspectRatio: "9/16",
-                  background: "#F5F5F5",
-                }}>
-                  <img
-                    src={step.mobileImg}
-                    alt={step.title}
-                    loading="lazy"
-                    decoding="async"
-                    style={{ width: "100%", height: "100%", objectFit: "contain", objectPosition: "center", display: "block" }}
-                  />
-                </div>
-                <h3 style={{
-                  fontFamily: "'HighCruiser', sans-serif",
-                  fontSize: "1.1rem",
-                  fontWeight: 900,
-                  marginBottom: 8,
-                  letterSpacing: 1.5,
-                  color: "#000",
-                }}>
-                  {step.title}
-                </h3>
-                <p style={{
-                  fontFamily: "'HighCruiser', sans-serif",
-                  fontSize: 13,
-                  color: "#666",
-                  lineHeight: 1.6,
-                  maxWidth: 280,
-                  margin: "0 auto",
-                }}>
-                  {step.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // DESKTOP layout (unchanged)
   return (
     <section
       ref={sectionRef}
@@ -352,4 +347,13 @@ export default function HowItWorks() {
       </div>
     </section>
   );
+}
+
+// ========== MAIN EXPORT ==========
+
+export default function HowItWorks() {
+  const isMobile = useIsMobile();
+
+  if (isMobile) return <HowItWorksMobile />;
+  return <HowItWorksDesktop />;
 }

@@ -39,7 +39,7 @@ export default function ContactPage() {
         </div>
       </nav>
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "60px 32px 120px" }}>
-        <h1 style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 42, fontWeight: 900, letterSpacing: 3, marginBottom: 60, lineHeight: 1.2 }}>{t.title}</h1>
+        <h1 style={{ fontFamily: "'HighCruiser', sans-serif", fontSize: 'clamp(2rem, 8vw, 42px)', fontWeight: 900, letterSpacing: 3, marginBottom: 60, lineHeight: 1.2, wordBreak: 'break-word' }}>{t.title}</h1>
 
         <div style={{ marginBottom: 48 }}>
           <img src={WHITE_LOGO} alt="BISK8" style={{ height: 26, marginBottom: 16 }} />
