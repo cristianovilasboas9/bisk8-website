@@ -83,16 +83,16 @@ function HowItWorksMobile() {
               {/* Step image */}
               <div
                 style={{
-                  width: '80%',
-                  maxWidth: '260px',
+                  width: '70%',
+                  maxWidth: '220px',
                   margin: '0 auto',
-                  borderRadius: 20,
-                  border: '2px solid rgba(0,0,0,0.06)',
+                  aspectRatio: '9/19.5',
+                  borderRadius: 24,
+                  border: '1.5px solid rgba(0,0,0,0.1)',
                   overflow: 'hidden',
-                  background: '#F5F5F5',
-                  aspectRatio: '9/16',
                   marginBottom: '1.25rem',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+                  boxShadow: '0 8px 25px rgba(0,0,0,0.06)',
+                  background: '#F5F5F5',
                 }}
               >
                 <img
@@ -103,8 +103,8 @@ function HowItWorksMobile() {
                   style={{
                     width: '100%',
                     height: '100%',
-                    objectFit: 'contain',
-                    objectPosition: 'center',
+                    objectFit: 'cover',
+                    objectPosition: 'center top',
                     display: 'block',
                   }}
                 />
@@ -293,14 +293,14 @@ function HowItWorksDesktop() {
                   <div
                     style={{
                       width: "100%",
-                      maxWidth: 250,
+                      maxWidth: 230,
                       margin: "0 auto",
-                      aspectRatio: "9 / 16",
+                      aspectRatio: "9 / 19.5",
                       borderRadius: 24,
-                      border: "2px solid rgba(0,0,0,0.06)",
-                      boxShadow: "0 16px 50px rgba(0,0,0,0.1)",
+                      border: "1.5px solid rgba(0,0,0,0.1)",
+                      boxShadow: "0 8px 25px rgba(0,0,0,0.06)",
                       overflow: "hidden",
-                      marginBottom: "1.5rem",
+                      marginBottom: "1.25rem",
                       background: "#F5F5F5",
                     }}
                   >
@@ -309,7 +309,7 @@ function HowItWorksDesktop() {
                       alt={step.title}
                       loading="lazy"
                       decoding="async"
-                      style={{ width: "100%", height: "100%", objectFit: "contain", objectPosition: "center", display: "block" }}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }}
                     />
                   </div>
 
