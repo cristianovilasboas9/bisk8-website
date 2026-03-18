@@ -60,6 +60,8 @@ export default function HowItWorks() {
         style={{
           height: "400vh",
           position: "relative",
+          transform: 'translate3d(0, 0, 0)',
+          WebkitOverflowScrolling: 'touch',
         }}
       >
         <div
@@ -75,6 +77,13 @@ export default function HowItWorks() {
             overflow: "hidden",
             padding: "1rem",
             paddingTop: "80px",
+            transform: 'translate3d(0, 0, 0)',
+            WebkitTransform: 'translate3d(0, 0, 0)',
+            willChange: 'transform',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden',
+            WebkitPerspective: 1000,
+            perspective: 1000,
           }}
         >
           {/* Title */}

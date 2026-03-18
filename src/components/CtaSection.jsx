@@ -3,6 +3,7 @@ import { useLanguage } from "../LanguageContext.jsx";
 import { translations, BLACK_LOGO, EASE } from "../data/translations.js";
 import ScaleIn from "./animations/ScaleIn.jsx";
 import FloatingGlow from "./animations/FloatingGlow.jsx";
+import useIsMobile from "../hooks/useIsMobile.js";
 
 const scaleBurst = {
   hidden: { opacity: 0, scale: 0.8, filter: "blur(8px)" },
@@ -17,9 +18,10 @@ export default function CtaSection({ handleComingSoon }) {
   const { lang } = useLanguage();
   const t = translations[lang] || translations.fr;
   const vp = { once: false, amount: 0.1 };
+  const isMobile = useIsMobile();
 
   return (
-    <section id="download-bottom" className="cta-glow" style={{ paddingTop: "8rem", paddingBottom: "8rem", paddingLeft: 32, paddingRight: 32, background: "#fff", color: "#000", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+    <section id="download-bottom" className="cta-glow" style={{ paddingTop: "8rem", paddingBottom: "8rem", paddingLeft: 32, paddingRight: 32, background: "#fff", color: "#000", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden", ...(isMobile && { transform: 'translate3d(0, 0, 0)', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }) }}>
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 50%, rgba(200,200,200,0.3) 0%, transparent 60%)", animation: "ctaGlow 4s ease-in-out infinite" }} />
       <FloatingGlow color="rgba(0,0,0,0.03)" size={500} top="30%" left="50%" />
       <ScaleIn>

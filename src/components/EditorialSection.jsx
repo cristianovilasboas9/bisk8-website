@@ -59,6 +59,11 @@ export default function EditorialSection() {
         maxHeight: isMobile ? 'none' : '100vh',
         display: 'flex',
         alignItems: isMobile ? 'flex-start' : 'center',
+        ...(isMobile && {
+          transform: 'translate3d(0, 0, 0)',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
+        }),
       }}
     >
       <div style={{ maxWidth: '1100px', margin: '0 auto', width: '100%' }}>

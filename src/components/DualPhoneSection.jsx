@@ -72,6 +72,11 @@ export default function DualPhoneSection() {
         padding: isMobile ? '5rem 1rem' : '10rem 2rem',
         background: '#000',
         overflow: 'hidden',
+        ...(isMobile && {
+          transform: 'translate3d(0, 0, 0)',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
+        }),
       }}
     >
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>

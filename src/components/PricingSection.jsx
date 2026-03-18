@@ -23,7 +23,7 @@ export default function PricingSection({ isAnnual, setIsAnnual, prices, handleCo
   ];
 
   return (
-    <section style={{ padding: isMobile ? "4rem 1rem" : "10rem 2rem", background: "#000", position: "relative" }}>
+    <section style={{ padding: isMobile ? "4rem 1rem" : "10rem 2rem", background: "#000", position: "relative", ...(isMobile && { transform: 'translate3d(0, 0, 0)', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }) }}>
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%, rgba(40,40,40,0.3) 0%, transparent 60%)" }} />
       <div style={{ width: "100%", maxWidth: 1100, margin: "0 auto", position: "relative" }}>
         <TextReveal>
@@ -48,8 +48,9 @@ export default function PricingSection({ isAnnual, setIsAnnual, prices, handleCo
             justifyContent: 'center',
             gap: isMobile ? '0.6rem' : '1.25rem',
             marginBottom: isMobile ? '1rem' : '4rem',
-            transform: isMobile ? 'scale(0.7)' : 'none',
+            transform: isMobile ? 'scale(0.7) translate3d(0, 0, 0)' : 'none',
             transformOrigin: 'center',
+            ...(isMobile && { WebkitBackfaceVisibility: 'hidden' }),
           }}>
             <span
               onClick={() => setIsAnnual(false)}
@@ -150,9 +151,12 @@ export default function PricingSection({ isAnnual, setIsAnnual, prices, handleCo
                   border: plan.highlight ? "none" : "1px solid #222",
                   position: "relative",
                   boxShadow: plan.highlight ? "0 0 80px rgba(255,255,255,0.12), 0 0 160px rgba(255,255,255,0.04)" : "none",
-                  transform: plan.highlight ? (isMobile ? "scale(1.02)" : "scale(1.03)") : "none",
+                  transform: plan.highlight
+                    ? (isMobile ? "scale(1.02) translate3d(0, 0, 0)" : "scale(1.03)")
+                    : (isMobile ? "translate3d(0, 0, 0)" : "none"),
                   minHeight: isMobile ? "auto" : "480px",
                   overflow: "visible",
+                  ...(isMobile && { WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden', willChange: 'opacity' }),
                 }}
               >
                 {plan.highlight && (

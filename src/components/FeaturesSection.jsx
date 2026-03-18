@@ -31,6 +31,11 @@ export default function FeaturesSection() {
         padding: isMobile ? "4rem 1rem" : "8rem 2rem",
         background: "#FFFFFF",
         overflow: "hidden",
+        ...(isMobile && {
+          transform: 'translate3d(0, 0, 0)',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
+        }),
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>

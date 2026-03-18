@@ -67,6 +67,9 @@ function MobileCardStack({ images }) {
               position: 'absolute',
               zIndex: style.zIndex,
               cursor: isCurrent ? 'grab' : 'default',
+              transform: 'translate3d(0, 0, 0)',
+              WebkitBackfaceVisibility: 'hidden',
+              backfaceVisibility: 'hidden',
             }}
           >
             <div style={{
@@ -128,6 +131,11 @@ export default function LooksGallery() {
         padding: isMobile ? '0' : '8rem 0',
         background: '#000',
         overflow: isMobile ? 'visible' : 'hidden',
+        ...(isMobile && {
+          transform: 'translate3d(0, 0, 0)',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
+        }),
       }}
     >
       {isMobile && <div style={{ height: '4rem', background: '#000' }} />}
