@@ -21,7 +21,7 @@ export default function Footer() {
         <footer className="site-footer" style={{ background: "#000", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
           <div style={{ width: "100%", maxWidth: 1200, margin: "0 auto", padding: "2rem 1.5rem", textAlign: "center" }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
-              <img src={WHITE_LOGO} alt="BISK8" loading="lazy" decoding="async" style={{ height: 30, width: "auto" }} />
+              <img src={WHITE_LOGO} alt="BISK8" loading="lazy" decoding="async" style={{ height: 30, width: "auto", cursor: "pointer" }} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} />
               <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", justifyContent: "center" }}>
                 <a href="/terms" style={{ color: "#666", fontSize: "0.75rem", textDecoration: "none", fontFamily: "'HighCruiser', sans-serif" }}>{t.footerTerms}</a>
                 <a href="/privacy" style={{ color: "#666", fontSize: "0.75rem", textDecoration: "none", fontFamily: "'HighCruiser', sans-serif" }}>{t.footerPrivacy}</a>
@@ -59,7 +59,7 @@ export default function Footer() {
             alignItems: "center",
             paddingBottom: "1.5rem",
           }}>
-            <img src={WHITE_LOGO} alt="BISK8" loading="lazy" decoding="async" style={{ height: 36, width: 'auto' }} />
+            <img src={WHITE_LOGO} alt="BISK8" loading="lazy" decoding="async" style={{ height: 36, width: 'auto', cursor: "pointer" }} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} />
             <div className="footer-links" style={{ display: "flex", gap: "2rem" }}>
               <a href="/terms" style={{ color: "#666", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s", fontFamily: "'HighCruiser', sans-serif" }} onMouseEnter={e => e.currentTarget.style.color = '#fff'} onMouseLeave={e => e.currentTarget.style.color = '#666'}>{t.footerTerms}</a>
               <a href="/privacy" style={{ color: "#666", textDecoration: "none", fontSize: "0.85rem", transition: "color 0.2s", fontFamily: "'HighCruiser', sans-serif" }} onMouseEnter={e => e.currentTarget.style.color = '#fff'} onMouseLeave={e => e.currentTarget.style.color = '#666'}>{t.footerPrivacy}</a>

@@ -75,7 +75,7 @@ export default function Nav() {
       </div>
 
       {/* CENTER — Logo */}
-      <div style={{ justifySelf: "center" }}>
+      <div style={{ justifySelf: "center", cursor: "pointer" }} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
         <img src={WHITE_LOGO} alt="BISK8" style={{ height: isMobile ? 34 : 27, width: "auto" }} />
       </div>
 
