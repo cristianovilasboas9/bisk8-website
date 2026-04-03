@@ -16,7 +16,7 @@ export default function PricingSection({ isAnnual, setIsAnnual, prices, handleCo
   const isMobile = useIsMobile();
 
   const plans = [
-    { name: t.free, price: "0 CHF", period: "", perks: [t.freePerk1, t.freePerk2, t.freePerk3], highlight: false },
+    { name: t.free, price: "0 EUR", period: "", perks: [t.freePerk1, t.freePerk2, t.freePerk3], highlight: false },
     { name: t.solo, price: prices.solo, period: prices.period, perks: [t.soloPerk1, t.soloPerk2, t.soloPerk3, t.soloPerk4], highlight: true, discount: isAnnual },
     { name: t.couple, price: prices.couple, period: prices.period, perks: [t.couplePerk1, t.couplePerk2, t.couplePerk3], highlight: false, discount: isAnnual },
     { name: t.famille, price: prices.famille, period: prices.period, perks: [t.famillePerk1, t.famillePerk2, t.famillePerk3], highlight: false, discount: isAnnual },
@@ -230,7 +230,7 @@ export default function PricingSection({ isAnnual, setIsAnnual, prices, handleCo
                         color: plan.highlight ? "#666" : "#888",
                       }}
                     >
-                      {plan.period ? `CHF${plan.period}` : "CHF"}
+                      {plan.period ? `EUR${plan.period}` : "EUR"}
                     </motion.span>
                   </AnimatePresence>
                 </div>

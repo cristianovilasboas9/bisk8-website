@@ -43,9 +43,9 @@ export default function BISK8Landing() {
   const t = translations[lang] || translations.fr;
 
   const prices = {
-    solo: isAnnual ? "99.90 CHF" : "9.90 CHF",
-    couple: isAnnual ? "149.90 CHF" : "14.90 CHF",
-    famille: isAnnual ? "179.90 CHF" : "17.90 CHF",
+    solo: isAnnual ? "99.90 EUR" : "9.90 EUR",
+    couple: isAnnual ? "149.90 EUR" : "14.90 EUR",
+    famille: isAnnual ? "179.90 EUR" : "17.90 EUR",
     period: isAnnual ? t.year : t.month,
   };
 
